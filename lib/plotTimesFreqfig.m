@@ -15,6 +15,7 @@ function [] = plotTimesFreqfig(T,F)
         hold on
     end
     xlabel('Time [s]');
+    legend('Longi. unbunched','Longi. bunched','Trans. unbunched','Trans. bunched');
 
     %frequency domain
     subplot(2,1,2);
