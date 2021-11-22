@@ -1,7 +1,7 @@
 function [y]=treno(t,T)
 
-        i=T;
-        y=delta(t); %delta in 0
+    i=T;
+    y=delta(t); %delta in 0
         
     while i<=max(t) 
           y=y+delta(t-i)+delta(t+i); 
