@@ -1,6 +1,6 @@
 %%Script to compare different values of synchrotron frequency to be
 %%evaluated on the same plot: results to be overlapped to the same curve,
-%%so the contribute to the motion can be considered quite indipendend from
+%%so the contribute to the motion can be considered quite independent from
 %%the 'fs' value
 
 %Setting parameters
