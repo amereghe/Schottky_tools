@@ -1,9 +1,9 @@
-%script generating 4 signals (longitudinal and transversal) for a single
-%particle case with RF and without RF (bunched and unbunched case
-%respectively);
+%%Script to compare different values of horizontal tune to be evaluated on
+%%two different plots: the first one is related to the transversal
+%%unbunched beam motion and the second to the bunched transversal motion
 
-%here follows a list of machine and beam parameters used to visualize
-%signals
+%furthermore we can also change 'friv' value to evaluate more different
+%betatron frequencies
 
 fsamp=125*10^6; %sampling frequency of the signal
 intTime=20*10^-6; %integration time
@@ -23,11 +23,15 @@ taus=0.125*Triv; %width of space function (Triv!=cost.), must be <Triv/2=1/(2*fr
 tau=taus*sin(2*pi*fs*t);
 
 %beatatron motion
-qh=1.676; %horizontal tune (int+fract)
-fb=qh*friv; %beatatron frequency
+qh=[1.656, 1.666, 1.676]; %horizontal tune (int+fract)
+fb1=qh(1)*friv; %beatatron frequency
+fb2=qh(2)*friv; %beatatron frequency
+fb3=qh(3)*friv; %beatatron frequency
 a0=0; %mean value of the modulation sinusoid
 a=1; %amplitude of the modulation sinusoid
-y=(a0+a*cos(2*pi*fb*t+pi/2)); %modulation sinusoid: transverse position
+y1=(a0+a*cos(2*pi*fb1*t+pi/2)); %modulation sinusoid: transverse position
+y2=(a0+a*cos(2*pi*fb2*t+pi/2)); %modulation sinusoid: transverse position
+y3=(a0+a*cos(2*pi*fb3*t+pi/2)); %modulation sinusoid: transverse position
 
 
 x=rectpuls(t,w); %longi unbunched
@@ -60,23 +64,35 @@ end
 X1=fft(x1);
 
 %trans unbunched e bunched: new signal modulated in phase by the tune
-if qh~=0 && a~=0
-    z=x.*y; %trans unbunched
+if qh(1)~=0 && qh(2)~=0 && qh(3)~=0 && a~=0
+    z01=x.*y1; %trans unbunched
+    z02=x.*y2;
+    z03=x.*y3;
     %Z=fftshift(fft(z));
-    Z=fft(z);
-    z1=x1.*y; %trans bunched
+    Z01=fft(z01);
+    Z02=fft(z02);
+    Z03=fft(z03);
+
+    z11=x1.*y1; %trans bunched
+    z12=x1.*y2;
+    z13=x1.*y3;
     %Z1=fftshift(fft(z1));
-    Z1=fft(z1);
+    Z11=fft(z11);
+    Z12=fft(z12);
+    Z13=fft(z13);
+
 end
 
-T=[t,x,x1,z,z1]; %matrix for time values
-F=[f,X,X1,Z,Z1]; %matrix for frequency values
+z0=[t,z01,z02,z03]; %trans unbunched matrix
+Z0=[f,Z01,Z02,Z03]; %fft trans unbunched matrix
+z1=[t,z11,z12,z13]; %trans bunched matrix
+Z1=[f,Z11,Z12,Z13]; %fft trans bunched matrix
 
-plotTimesFreqfig(T,F);
-%title(['Intergration time=',num2str(T(end,1)+dt),'s']);
-%title(['Sampling frequency=',num2str(fsamp),'Hz']);
-%title(['Synchrotron frequency=',num2str(fs),'Hz']);
-%title(['Betatron frequency @ (qh=1.676 & revolution frequency= 2.334 MHz)=',num2str(fb),'Hz']);
-%title(['Avg. of the mod. sin=',num2str(a0),' maybe mA']);
-%title(['Amp. of the mod. sin=',num2str(a),' maybe mA']);
-%title(['Width of the spacing function=',num2str(taus),'s']);
+%plot
+plotTimesFreqfig(z0,Z0);
+title('Transversal unbunched curves with different horizontal tune values');
+legend('qh=1.656','qh=1.666','qh=1.676')
+hold on;
+plotTimesFreqfig(z1,Z1);
+title('Transversal bunched curves with different horizontal tune values');
+legend('qh=1.656','qh=1.666','qh=1.676')
