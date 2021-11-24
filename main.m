@@ -47,7 +47,6 @@ for i=1:n
     x=x+rectpuls(t-i*Triv,w); %longi unbunched
 end
 
-%X=fftshift(fft(x));
 X=fft(x);
 
 if taus~=0 %need to add n*1/friv where n is the array position
@@ -69,16 +68,13 @@ end
 %sincrotrone (~1kHz) ho bisogno di tempi di integrazione molto maggiori
 %rispetto all'unbunched
 
-%X1=fftshift(fft(x1));
 X1=fft(x1);
 
 %trans unbunched e bunched: new signal modulated in phase by the tune
 if qh~=0 && a~=0
     z=x.*y; %trans unbunched
-    %Z=fftshift(fft(z));
     Z=fft(z);
     z1=x1.*y; %trans bunched
-    %Z1=fftshift(fft(z1));
     Z1=fft(z1);
 end
 
