@@ -15,7 +15,6 @@ function [] = plotTimesFreqfig(T,F)
         hold on
     end
     xlabel('Time [s]');
-    legend('Longi. unbunched','Longi. bunched','Trans. unbunched','Trans. bunched');
 
     %frequency domain
     subplot(2,1,2);
@@ -25,6 +24,9 @@ function [] = plotTimesFreqfig(T,F)
         hold on
     end
     xlabel('Frequency [Hz]');
+    legend('Longi. unbunched','Longi. bunched','Trans. unbunched','Trans. bunched','location','best');
+    %comment the prewious line of code in order to avoid ignoring extra
+    %LEGEND entries, if expressed in other scripts
     
 end
 
