@@ -1,4 +1,4 @@
-function [] = plotTimesFreqfig(T,F)
+function [] = plotTimesFreqfig(T,F,friv)
 
 %PLOTALL Summary of this function goes here
 
@@ -15,18 +15,37 @@ function [] = plotTimesFreqfig(T,F)
         hold on
     end
     xlabel('Time [s]');
-
+    
     %frequency domain
     subplot(2,1,2);
-
-    for j=1:(size(F,2)-1)
-        plot(F(:,1),abs(F(:,j+1))/size(F,1));
-        hold on
+    
+%     if(~exist('friv','var'))
+%         friv=true;
+%     end
+    
+    if(friv)
+        
+        for j=1:(size(F,2)-1)
+            plot(F(:,1)/friv,abs(F(:,j+1))/size(F,1));
+            hold on
+        end
+        xlabel('Normalized frequency [A.U.]');
+        
+    else
+        
+        for k=1:(size(F,2)-1)
+            plot(F(:,1),abs(F(:,k+1))/size(F,1));
+            hold on
+        end
+        xlabel('Frequency [Hz]');
+        
     end
-    xlabel('Frequency [Hz]');
-    legend('Longi. unbunched','Longi. bunched','Trans. unbunched','Trans. bunched','location','best');
-    %comment the prewious line of code in order to avoid ignoring extra
-    %LEGEND entries, if expressed in other scripts
+    
+    if(friv)
+        xlabel('Normalized frequency [A.U.]');
+    else
+        xlabel('Frequency [Hz]');
+    end
     
 end
 
