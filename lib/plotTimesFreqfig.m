@@ -1,10 +1,10 @@
 function [] = plotTimesFreqfig(T,F,friv)
 
-%PLOTALL Summary of this function goes here
-
 %   plot of signal in time in the intTime selected and their fft, we are
 %   passing matrices containing temporal (T) and frequency (F) values with 
-%   their corresponding values of signals both in time domain and FFT
+%   their corresponding values of signals both in time domain and FFT; if
+%   'friv' is given, then we have a plot showing normalized frequency, if 0
+%   values are not normalized.
     
     %time domain
     figure;
@@ -39,12 +39,6 @@ function [] = plotTimesFreqfig(T,F,friv)
         end
         xlabel('Frequency [Hz]');
         
-    end
-    
-    if(friv)
-        xlabel('Normalized frequency [A.U.]');
-    else
-        xlabel('Frequency [Hz]');
     end
     
 end
