@@ -19,9 +19,9 @@ function [] = plotTimesFreqfig(T,F,friv)
     %frequency domain
     subplot(2,1,2);
     
-%     if(~exist('friv','var'))
-%         friv=true;
-%     end
+    if(~exist('friv','var'))
+        friv=false;
+    end
     
     if(friv)
         

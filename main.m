@@ -50,9 +50,9 @@ tT=[t,tu,tb,tb2];
 fT=[f,TU,TB,TB2];
 
 plotTimesFreqfig(tL,fL,friv);
-legend('lu','lb','lb2');
-title('Longitudinal signals');
+legend('lu','lb','tu','tb');
+title('intTime=20ms');
 
-plotTimesFreqfig(tT,fT,0); %0 when we don't know 'friv' value
-legend('tu','tb','tb2');
-title('Transversal signals');
+% plotTimesFreqfig(tT,fT);
+% legend('tu','tb','tb2');
+% title('Transversal signals');
