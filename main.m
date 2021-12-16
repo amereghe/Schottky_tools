@@ -3,7 +3,7 @@
 
 %%configuration paramaters
 fsamp=125*10^6; %sampling frequency of the signal
-intTime=200*10^-6; %integration time
+intTime=20*10^-6; %integration time
 fs=1.173*10^3; %synchrotron frequency ~1kHz
 friv=2.167*10^6; %revolution frequency
 Triv=1/friv; %revolution period
@@ -25,39 +25,42 @@ a=1; %amplitude of the modulation sinusoid
 
 %longitudinal unbunched: fs=0
 lu=generate(0,t,0,friv,w,taus,a0,a);
-LU=fft(lu);
+LU=abs(fft(lu));
 
 %longitudinal bunched: fs~=0
 lb=generate(fs,t,0,friv,w,taus,a0,a);
-LB=fft(lb);
+LB=abs(fft(lb));
 lb2=generate(fs,t,0,friv,w,taus,1,a); %mean_value~=0
-LB2=fft(lb2);
+LB2=abs(fft(lb2));
 
-tL=[t,lu,lb];%,lb2]; %matrix for time values
-fL=[f,LU,LB];%,LB2]; %matrix for frequency values
+% tL=[t,lu,lb];%,lb2]; %matrix for time values
+% fL=[f,LU,LB];%,LB2]; %matrix for frequency values
 
-%transverse unbunched: q~=0
+% transverse unbunched: q~=0
 tu=generate(0,t,q,friv,w,taus,a0,a);
-TU=fft(tu);
+TU=abs(fft(tu));
 
-%transverse bunched: q~=0
+%transverse bunched: q~=0 && fs~=0
 tb=generate(fs,t,q,friv,w,taus,a0,a);
-TB=fft(tb);
+TB=abs(fft(tb));
 tb2=generate(fs,t,q,friv,w,taus,1,a);
-TB2=fft(tb2);
+TB2=abs(fft(tb2));
 
 aa=[t,lu,lb,tu,tb];
 AA=[f,LU,LB,TU,TB];
 
-tT=[t,tu,tb];
-fT=[f,TU,TB];
+% tT=[t,tu,tb];
+% fT=[f,TU,TB];
 
-bb=[t,lu,tb];
-BB=[f,LU,TB];
+plotTimesFreqfig(aa,AA,friv);
+legend('lu','lb','tu','tb');
+title('intTime=20ms');
 
-plotTimesFreqfig(tL,fL,friv);
-legend('lu','tb');
-title('intTime=20us');
+aa=aa(:,2:4);
+AA=AA(:,2:4);
+newPlotTimesFreqfig(t,f,aa,AA,friv);
+legend('lu','lb','tu','tb');
+title('intTime=20ms');
 
 % plotTimesFreqfig(tT,fT,friv);
 % legend('tu','tb','tb2');
