@@ -1,5 +1,9 @@
+%sidebandsFs is used to generate and plot all signals for a specified value
+%of syncrotron frequencies, in order to compare them in terms of spectral
+%shifts and resolution
+
 fsamp=125*10^6; %sampling frequency of the signal
-intTime = 20*10^-6; %integration time (OPT.)
+intTime = 2*10^-3; %integration time (OPT.)
 fs=[1.173/2,1.173,2*1.173]*10^3; %synchrotron frequency ~1kHz
 friv=2.167*10^6; %revolution frequency
 Triv=1/friv; %revolution period
@@ -31,6 +35,6 @@ T=(lb);
 F=(LB);
 [T,F]=padding(T,F,lb1,lb2,LB1,LB2);
 
-newPlotTimesFreqfig(t,f,T,F,friv);
-legend('586.5 Hz','1173 Hz','2346 Hz');
-title('Longitudinal bunched at different synchrotron frequencies');
+PlotTimesFreqfig(t,f,T,F,friv);
+legend('586.5 Hz','1173 Hz','2346 Hz','FontSize',14);
+title('Longitudinal bunched at different synchrotron frequencies','FontSize',18);

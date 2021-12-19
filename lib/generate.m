@@ -1,6 +1,10 @@
 function [x] = generate(fs,t,q,friv,w,taus,a0,a)
 %generate is the final tool that helps us in generating sigma and delta
 %(longitudinal and transversal) signals related to the Schottky analysis
+%as input we have the synchrotron frequency, times vector (array of x axis)
+%the tune value, revolution frequency value, width of the pulse, and three
+%parameters for the modulating sinusoid; as output we obtain the desired
+%signal
 
 n=size(t,1);
 dt=t(2)-t(1);
@@ -33,8 +37,8 @@ end
 
 end
 
-function [S] = foo(tau_1,w,dt,t,S)
-%foo returns the signal with ones in the right position in order to build
+function [S] = imp_one(tau_1,w,dt,t,S)
+%imp_one returns the signal with ones in the right position in order to build
 %the signal of our interest
 
 % signal to insert

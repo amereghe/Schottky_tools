@@ -1,3 +1,7 @@
+%sidebandsQh is used to generate and plot all signals for a specified value
+%of horizontal tune, in order to compare them in terms of spectral shifts
+%and resolution
+
 fsamp=125*10^6; %sampling frequency of the signal
 intTime = 200*10^-6; %integration time (OPT.)
 fs=[1.173/2,1.173,2*1.173]*10^3; %synchrotron frequency ~1kHz
@@ -31,6 +35,6 @@ T=(tu);
 F=(TU);
 [T,F]=padding(T,F,tu1,tu2,TU1,TU2);
 
-newPlotTimesFreqfig(t,f,T,F,friv);
-legend('1.657','1.667','1.677');
-title('Longitudinal bunched at different tune');
+PlotTimesFreqfig(t,f,T,F,friv);
+legend('1.657','1.667','1.677','FontSize',14);
+title('Transverse unbunched at different tune','FontSize',18);
