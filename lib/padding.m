@@ -9,7 +9,7 @@ function [T,F] = padding(T,F,lu1,lu2,LU1,LU2)
 % F(1:length(LU1),2)=LU1;
 % F(1:length(LU2),3)=LU2;
 
-if ( size(t1,2)>size(t1,1) )
+   if ( size(t1,2)>size(t1,1) )
       T=t1'; % transpose array/matrix
    else
       T=t1;
