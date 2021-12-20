@@ -1,4 +1,5 @@
 function [x] = generate(fs,t,q,friv,w,taus,a0,a)
+
 %generate is the final tool that helps us in generating sigma and delta
 %(longitudinal and transversal) signals related to the Schottky analysis
 %as input we have the synchrotron frequency, times vector (array of x axis)
@@ -25,7 +26,7 @@ else
 end
 
 for k=1:nRect+add
-%     x=foo(tau(k),w,dt,t,x); %longitudinal bunched, maybe useful for gauss
+%     x=imp_one(tau(k),w,dt,t,x); %longitudinal bunched, maybe useful for gauss
     ind=round(tau(k)/dt)+1;
     x(ind)=1;
 end
