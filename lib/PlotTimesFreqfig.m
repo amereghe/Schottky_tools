@@ -27,8 +27,10 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
             hold on
         end
     end
-    xlabel('Time [s]','FontSize',16);
-    ylabel('Amplitude [A.U.]','FontSize',16);
+    ax = gca;
+    ax.FontSize = 18;
+    xlabel('Time [s]','FontSize',20);
+    ylabel('Amplitude [A.U.]','FontSize',20);
     
     %frequency domain
     subplot(2,1,2);
@@ -49,8 +51,10 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
                 hold on
             end
         end
-        xlabel('Normalized frequency [A.U.]','FontSize',16);
-        ylabel('Absolute value [A.U.]','FontSize',16);
+        ax = gca;
+        ax.FontSize = 18;
+        xlabel('Normalized frequency [A.U.]','FontSize',20);
+        ylabel('Absolute value [A.U.]','FontSize',20);
         
     else
         if resf == resF
@@ -64,8 +68,10 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
                 hold on
             end
         end
-        xlabel('Frequency [Hz]','FontSize',16);
-        ylabel('Absolute value [A.U.]','FontSize',16);
+        ax = gca;
+        ax.FontSize = 18;
+        xlabel('Frequency [Hz]','FontSize',20);
+        ylabel('Absolute value [A.U.]','FontSize',20);
         
     end
     set(gca,'YScale','log');

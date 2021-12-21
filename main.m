@@ -52,5 +52,5 @@ AA=[f,LU,LB,TU,TB];
 aa=aa(:,2:5);
 AA=AA(:,2:5);
 PlotTimesFreqfig(t,f,aa,AA,friv);
-legend('lu','lb','tu','tb','FontSize',14);
-title('intTime=2ms','FontSize',18);
+legend('lu','lb','tu','tb','FontSize',16);
+title('intTime=2ms','FontSize',20);

@@ -36,5 +36,5 @@ F=(LB);
 [T,F]=padding(T,F,lb1,lb2,LB1,LB2);
 
 PlotTimesFreqfig(t,f,T,F,friv);
-legend('586.5 Hz','1173 Hz','2346 Hz','FontSize',14);
-title('Longitudinal bunched at different synchrotron frequencies','FontSize',18);
+legend('586.5 Hz','1173 Hz','2346 Hz','FontSize',16);
+title('Longitudinal bunched at different synchrotron frequencies','FontSize',20);

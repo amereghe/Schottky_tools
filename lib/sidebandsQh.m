@@ -36,5 +36,5 @@ F=(TU);
 [T,F]=padding(T,F,tu1,tu2,TU1,TU2);
 
 PlotTimesFreqfig(t,f,T,F,friv);
-legend('1.657','1.667','1.677','FontSize',14);
-title('Transverse unbunched at different tune','FontSize',18);
+legend('1.657','1.667','1.677','FontSize',16);
+title('Transverse unbunched at different tune','FontSize',20);

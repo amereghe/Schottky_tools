@@ -58,10 +58,10 @@ f=(f1);
 [t,f]=padding(t,f,t2,t3,f2,f3);
 
 
-T=(tb);
-F=(TB);
-[T,F]=padding(T,F,tb1,tb2,TB1,TB2);
+T=(tu);
+F=(TU);
+[T,F]=padding(T,F,tu1,tu2,TU1,TU2);
 
 PlotTimesFreqfig(t,f,T,F,friv);
-title('Transverse bunched','FontSize',18);
-legend('2ms','200us','20us','FontSize',14);
+title('Transverse unbunched','FontSize',20);
+legend('2ms','200us','20us','FontSize',16);
