@@ -28,23 +28,23 @@ a=1; %amplitude of the modulation sinusoid
 
 %longitudinal unbunched: fs=0
 lu=generate(0,t,0,friv,w,taus,a0,a);
-LU=10*abs(fft(lu));
+LU=abs(fft(lu));
 
 %longitudinal bunched: fs~=0
 lb=generate(fs,t,0,friv,w,taus,a0,a);
-LB=10*abs(fft(lb));
+LB=abs(fft(lb));
 lb2=generate(fs,t,0,friv,w,taus,1,a); %mean_value ~= 0
-LB2=10*abs(fft(lb2));
+LB2=abs(fft(lb2));
 
 % transverse unbunched: q~=0
 tu=generate(0,t,q,friv,w,taus,a0,a);
-TU=10*abs(fft(tu));
+TU=abs(fft(tu));
 
 %transverse bunched: q~=0 && fs~=0
 tb=generate(fs,t,q,friv,w,taus,a0,a);
-TB=10*abs(fft(tb));
+TB=abs(fft(tb));
 tb2=generate(fs,t,q,friv,w,taus,1,a); %avg mod sin ~= 0
-TB2=10*abs(fft(tb2));
+TB2=abs(fft(tb2));
 
 aa=[t,lu,lb,tu,tb];
 AA=[f,LU,LB,TU,TB];

@@ -22,35 +22,35 @@ a=1; %amplitude of the modulation sinusoid
 
 %longitudinal unbunched: fs=0
 lu=generate(0,t1,0,friv,w,taus,a0,a);
-LU=10*abs(fft(lu));
+LU=abs(fft(lu));
 lu1=generate(0,t2,0,friv,w,taus,a0,a);
-LU1=10*abs(fft(lu1));
+LU1=abs(fft(lu1));
 lu2=generate(0,t3,0,friv,w,taus,a0,a);
-LU2=10*abs(fft(lu2));
+LU2=abs(fft(lu2));
 
 %longitudinal bunched: fs~=0
 lb=generate(fs,t1,0,friv,w,taus,a0,a);
-LB=10*abs(fft(lb));
+LB=abs(fft(lb));
 lb1=generate(fs,t2,0,friv,w,taus,a0,a);
-LB1=10*abs(fft(lb1));
+LB1=abs(fft(lb1));
 lb2=generate(fs,t3,0,friv,w,taus,a0,a);
-LB2=10*abs(fft(lb2));
+LB2=abs(fft(lb2));
 
 % transverse unbunched: q~=0
 tu=generate(0,t1,q,friv,w,taus,a0,a);
-TU=10*abs(fft(tu));
+TU=abs(fft(tu));
 tu1=generate(0,t2,q,friv,w,taus,a0,a);
-TU1=10*abs(fft(tu1));
+TU1=abs(fft(tu1));
 tu2=generate(0,t3,q,friv,w,taus,a0,a);
-TU2=10*abs(fft(tu2));
+TU2=abs(fft(tu2));
 
 % transverse bunched: q~=0 && fs~=0
 tb=generate(fs,t1,q,friv,w,taus,a0,a);
-TB=10*abs(fft(tb));
+TB=abs(fft(tb));
 tb1=generate(fs,t2,q,friv,w,taus,a0,a);
-TB1=10*abs(fft(tb1));
+TB1=abs(fft(tb1));
 tb2=generate(fs,t3,q,friv,w,taus,a0,a);
-TB2=10*abs(fft(tb2));
+TB2=abs(fft(tb2));
 
 %matrix to be passed and then plotted
 t=(t1);

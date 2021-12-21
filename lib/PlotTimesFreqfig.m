@@ -50,7 +50,7 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
             end
         end
         xlabel('Normalized frequency [A.U.]','FontSize',16);
-        ylabel('Magnitude [dB]','FontSize',16);
+        ylabel('Absolute value [A.U.]','FontSize',16);
         
     else
         if resf == resF
@@ -65,7 +65,7 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
             end
         end
         xlabel('Frequency [Hz]','FontSize',16);
-        ylabel('Amplitude [dB]','FontSize',16);
+        ylabel('Absolute value [A.U.]','FontSize',16);
         
     end
     set(gca,'YScale','log');
