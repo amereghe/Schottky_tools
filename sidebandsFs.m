@@ -44,8 +44,8 @@ LB2=abs(fft(lb2));
 
 %% plot signals
 
-[T,F]=padding(lb,LB,lb1,LB1);
-[T,F]=padding( T, F,lb2,LB2);
+T=padding(lb,lb1); T=padding(T,lb2); 
+F=padding(LB,LB1); F=padding(F,LB2); 
 
 PlotTimesFreqfig(t,f,T,F,friv);
 legend('586.5 Hz','1173 Hz','2346 Hz','FontSize',16);

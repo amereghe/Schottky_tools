@@ -44,8 +44,8 @@ TU2=abs(fft(tu2));
 
 %% plot signals
 
-[T,F]=padding(tu,TU,tu1,TU1);
-[T,F]=padding( T, F,tu2,TU2);
+T=padding(tu,tu1); T=padding(T,tu2); 
+F=padding(TU,TU1); F=padding(F,TU2); 
 
 PlotTimesFreqfig(t,f,T,F,friv);
 legend('1.657','1.667','1.677','FontSize',16);
