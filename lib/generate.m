@@ -43,7 +43,7 @@ function [xx] = generate(fs,tt,qq,friv,ww,taus,a0,aa)
     % - central time
     add=0; if (tau(end)/dt<nn), add=1; end
     for kk=1:nCentres+add
-    %     xx=imp_one(tau(kk),ww,dt,tt,xx); %longitudinal bunched, maybe useful for gauss
+        % xx=InsertSingle(tau(kk),ww,dt,tt,xx); %longitudinal bunched, maybe useful for gauss
         ind=round(tau(kk)/dt)+1;
         xx(ind)=1;
     end
@@ -53,8 +53,8 @@ function [xx] = generate(fs,tt,qq,friv,ww,taus,a0,aa)
 
 end
 
-function [SS] = imp_one(t0,ww,dt,tS,SS)
-% imp_one           inserts a single-particle,single-passage signal at t0
+function [SS] = InsertSingle(t0,ww,dt,tS,SS)
+% InsertSingle        inserts a single-particle,single-passage signal at t0
 %
 % input:
 % - tS, SS (1D arrays, double precision): time [s] and original signal [];
