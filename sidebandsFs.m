@@ -36,11 +36,11 @@ a=1; %amplitude of the modulation sinusoid
 
 % longitudinal (sigma) bunched (off-momentum, RF on): fs~=0
 lb=generate(fs(1),t,0,friv,w,taus,a0,a);
-LB=abs(fft(lb));
+LB=fft(lb);
 lb1=generate(fs(2),t,0,friv,w,taus,a0,a);
-LB1=abs(fft(lb1));
+LB1=fft(lb1);
 lb2=generate(fs(3),t,0,friv,w,taus,a0,a);
-LB2=abs(fft(lb2));
+LB2=fft(lb2);
 
 %% plot signals
 

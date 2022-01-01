@@ -36,11 +36,11 @@ a=1; %amplitude of the modulation sinusoid
 
 % transverse unbunched: q~=0
 tu=generate(0,t,q(1),friv,w,taus,a0,a);
-TU=abs(fft(tu));
+TU=fft(tu);
 tu1=generate(0,t,q(2),friv,w,taus,a0,a);
-TU1=abs(fft(tu1));
+TU1=fft(tu1);
 tu2=generate(0,t,q(3),friv,w,taus,a0,a);
-TU2=abs(fft(tu2));
+TU2=fft(tu2);
 
 %% plot signals
 

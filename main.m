@@ -36,23 +36,23 @@ a=1; %amplitude of the modulation sinusoid
 
 % longitudinal (sigma) unbunched (on-momentum): fs=0
 lu=generate(0,t,0,friv,w,taus,a0,a);
-LU=abs(fft(lu));
+LU=fft(lu);
 
 % longitudinal (sigma) bunched (off-momentum, RF on): fs~=0
 lb=generate(fs,t,0,friv,w,taus,a0,a);
-LB=abs(fft(lb));
+LB=fft(lb);
 % lb2=generate(fs,t,0,friv,w,taus,1,a); %mean_value ~= 0
-% LB2=abs(fft(lb2));
+% LB2=fft(lb2);
 
 % transverse (delta) unbunched (on-momentum): q~=0
 tu=generate(0,t,q,friv,w,taus,a0,a);
-TU=abs(fft(tu));
+TU=fft(tu);
 
 % transverse (delta) bunched (off-momentum, RF on): q~=0 && fs~=0
 tb=generate(fs,t,q,friv,w,taus,a0,a);
-TB=abs(fft(tb));
+TB=fft(tb);
 % tb2=generate(fs,t,q,friv,w,taus,1,a); %avg mod sin ~= 0
-% TB2=abs(fft(tb2));
+% TB2=fft(tb2);
 
 %% plot signals
 

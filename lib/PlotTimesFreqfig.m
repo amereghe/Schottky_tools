@@ -58,12 +58,12 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
     if resf == resF
         for ii=1:resf
             if(ii>1), hold on; end
-            plot(f(:,ii)/fNormFact,F(:,ii));
+            plot(f(:,ii)/fNormFact,abs(F(:,ii)));
         end
     elseif resf == 1
         for ii=1:resF
             if(ii>1), hold on; end
-            plot(f/fNormFact,F(:,ii));
+            plot(f/fNormFact,abs(F(:,ii)));
         end
     end
     ax = gca; ax.FontSize = TicksFontSize;
