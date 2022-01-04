@@ -1,79 +1,78 @@
 function [] = PlotTimesFreqfig(t,f,T,F,friv)
-
-%   plot of signal in time in the intTime selected and their fft, we are
-%   passing matrices containing temporal (T) and frequency (F) values with 
-%   their corresponding values of signals both in time domain and FFT; if
-%   'friv' is given, then we have a plot showing normalized frequency, if 0
-%   values are not normalized; about t and f, these are the arrays for the 
-%   horizontal axes, if there is only one column means that all time
-%   signals and related FFT have the same domain resolution.
+% PlotTimesFreqfig            to show signal(s) and theirs FFT.
+%
+% The function generates a figure with two plots:
+% - top plot: all time signals;
+% - bottom plot: all FFTs;
+%
+% input:
+% - t (2D array, double precision): array of time vector [s];
+% - f (2D array, double precision): array of frequency vector [Hz];
+% - T (2D array, double precision): array of signal values [];
+% - F (2D array, double precision): array of FFT values [];
+% - friv (double precision, optional): revolution frequency [s];
+%   if provided, the domain will be shown as normalised frequency;
+%   otherwise, bare frequencies are shown.
+%
+% N.B.: t,f,T,F:
+% - a column per series, e.g. two signals are stored as t(Nsamples,2),T(Nsamples,2);
+% - if the signals share the same time domain, the function can handle a
+%   unique time domain, e.g. t(Nsamples,1),T(Nsamples,Nsignals);
     
-    rest=size(t,2);
-    resf=size(f,2);
-    resT=size(T,2);
-    resF=size(F,2);
-
-%     %time domain
+    %% checks
+    rest=size(t,2); resf=size(f,2); resT=size(T,2); resF=size(F,2);
+    if(exist('friv','var'))
+        lfriv=true;
+        fNormFact=friv;
+    else
+        lfriv=false;
+        fNormFact=1.0;
+    end
+    
+    %% font sizes
+    LabelFontSize=20;
+    TicksFontSize=18;
+    
+    %% plot
     figure;
+    
+    % time domain
     subplot(2,1,1);
     if rest == resT
-        for i=1:rest
-            plot(t(:,i),T(:,i));
-            hold on
+        for ii=1:rest
+            if(ii>1), hold on; end
+            plot(t(:,ii),T(:,ii));
         end
     elseif rest == 1
-        for i=1:resT
-            plot(t(:,1),T(:,i));
-            hold on
+        for ii=1:resT
+            if(ii>1), hold on; end
+            plot(t,T(:,ii));
         end
     end
-    ax = gca;
-    ax.FontSize = 18;
-    xlabel('Time [s]','FontSize',20);
-    ylabel('Amplitude [A.U.]','FontSize',20);
+    ax = gca; ax.FontSize = TicksFontSize;
+    xlabel('Time [s]','FontSize',LabelFontSize);
+    ylabel('Amplitude [A.U.]','FontSize',LabelFontSize);
     
-    %frequency domain
+    % frequency domain
     subplot(2,1,2);
-    
-    if(~exist('friv','var'))
-        friv=false;
-    end
-    
-    if(friv)
-        if resf == resF
-            for j=1:resf
-                plot(f(:,j)/friv,(abs(F(:,j))));
-                hold on
-            end
-        elseif resf == 1
-            for j=1:resF
-                plot(f(:,1)/friv,(abs(F(:,j))));
-                hold on
-            end
+    if resf == resF
+        for ii=1:resf
+            if(ii>1), hold on; end
+            plot(f(:,ii)/fNormFact,abs(F(:,ii)));
         end
-        ax = gca;
-        ax.FontSize = 18;
-        xlabel('Normalized frequency [A.U.]','FontSize',20);
-        ylabel('Absolute value [A.U.]','FontSize',20);
-        
+    elseif resf == 1
+        for ii=1:resF
+            if(ii>1), hold on; end
+            plot(f/fNormFact,abs(F(:,ii)));
+        end
+    end
+    ax = gca; ax.FontSize = TicksFontSize;
+    if (lfriv)
+        xlabel('Normalized frequency [A.U.]','FontSize',LabelFontSize);
     else
-        if resf == resF
-            for k=1:resf
-                plot(f(:,k),(abs(F(:,k))));
-                hold on
-            end
-        elseif resf == 1
-            for k=1:resF
-                plot(f(:,1)/friv,(abs(F(:,k))));
-                hold on
-            end
-        end
-        ax = gca;
-        ax.FontSize = 18;
-        xlabel('Frequency [Hz]','FontSize',20);
-        ylabel('Absolute value [A.U.]','FontSize',20);
-        
+        xlabel('Frequency [Hz]','FontSize',LabelFontSize);
     end
+    ylabel('Absolute value [A.U.]','FontSize',LabelFontSize);
     set(gca,'YScale','log');
     
 end
