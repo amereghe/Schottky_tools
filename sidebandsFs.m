@@ -1,7 +1,7 @@
 %% program description
-% The program generates and plots signals for a specific integration time.
-% The generated signals are longitudinal/transverse (sigma/delta)
-%   unbunched/bunched (on-momentum, off-momentum with RF on).
+% The program generates and plots signals for three values of synchrotron
+% frequency.
+% The generated signals are longitudinal (sigma) bunched (off-momentum with RF on).
 
 %% include libraries
 % - include lib folder
@@ -12,8 +12,8 @@ addpath(genpath(pathToLibrary));
 
 % paramaters
 fsamp=125*10^6; %sampling frequency of the signal [Hz]
-intTime=2*10^-3; %integration time of signal [s]
-fs=1.173*10^3; %synchrotron frequency ~1kHz [Hz]
+intTime = 2*10^-3; %integration time of signal [s]
+fs=[1.173/2,1.173,2*1.173]*10^3; %synchrotron frequency ~1kHz [Hz]
 friv=2.167*10^6; %revolution frequency [Hz]
 Triv=1/friv; %revolution period [s]
 dt=1/fsamp; %temporal step [s]
@@ -34,28 +34,19 @@ a=1; %amplitude of the modulation sinusoid
 
 %% generate signal and compute FFT
 
-% longitudinal (sigma) unbunched (on-momentum): fs=0
-lu=generate(0,t,0,friv,w,taus,a0,a);
-LU=fft(lu);
-
 % longitudinal (sigma) bunched (off-momentum, RF on): fs~=0
-lb=generate(fs,t,0,friv,w,taus,a0,a);
+lb=generate(fs(1),t,0,friv,w,taus,a0,a);
 LB=fft(lb);
-% lb2=generate(fs,t,0,friv,w,taus,1,a); %mean_value ~= 0
-% LB2=fft(lb2);
-
-% transverse (delta) unbunched (on-momentum): q~=0
-tu=generate(0,t,q,friv,w,taus,a0,a);
-TU=fft(tu);
-
-% transverse (delta) bunched (off-momentum, RF on): q~=0 && fs~=0
-tb=generate(fs,t,q,friv,w,taus,a0,a);
-TB=fft(tb);
-% tb2=generate(fs,t,q,friv,w,taus,1,a); %avg mod sin ~= 0
-% TB2=fft(tb2);
+lb1=generate(fs(2),t,0,friv,w,taus,a0,a);
+LB1=fft(lb1);
+lb2=generate(fs(3),t,0,friv,w,taus,a0,a);
+LB2=fft(lb2);
 
 %% plot signals
 
-PlotTimesFreqfig(t,f,[lu,lb,tu,tb],[LU,LB,TU,TB],friv);
-legend('lu','lb','tu','tb','FontSize',16);
-title('intTime=2ms','FontSize',20);
+T=padding(lb,lb1); T=padding(T,lb2); 
+F=padding(LB,LB1); F=padding(F,LB2); 
+
+PlotTimesFreqfig(t,f,T,F,friv);
+legend('586.5 Hz','1173 Hz','2346 Hz','FontSize',16);
+title('Longitudinal bunched at different synchrotron frequencies','FontSize',20);
