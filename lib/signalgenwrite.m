@@ -28,34 +28,35 @@ end
    
 fileread=fopen('template.ini','r');
 filewrite=fopen('out.ini','w');
-ID_linea=1;
+ID_line=1;
 nline=22;
 
-while (ID_linea<nline)
+while (ID_line<nline)
     
-    linea=fgetl(fileread);
+    line=fgetl(fileread);
+    ender=';';
     
-    if ~ischar(linea)
+    if ~ischar(line)
         break;
     end
     
-    if linea(1)=='#' || linea(1)=='['
-        fprintf(filewrite,'%s\n',linea);
+    if line(1)=='#' || line(1)=='['
+        fprintf(filewrite,'%s\n',line);
     end
-    if linea(1)=='f'
-        fprintf(filewrite,'%s%s\n','fcamp = ',fsamp);
+    if line(1)=='f'
+        fprintf(filewrite,'%s%s%c\n','fcamp = ',fsamp,ender);
     end
-    if linea(1)=='g'
-        fprintf(filewrite,'%s%u\n','gain = ',gain);
+    if line(1)=='g'
+        fprintf(filewrite,'%s%u%c\n','gain = ',gain,ender);
     end
-    if linea(1)=='r'
-        fprintf(filewrite,'%s%u\n','repeat = ',repeat);
+    if line(1)=='r'
+        fprintf(filewrite,'%s%u%c\n','repeat = ',repeat,ender);
     end
-    if linea(1)=='v'
-        fprintf(filewrite,'%s\n',signal);
+    if line(1)=='v'
+        fprintf(filewrite,'%s\n',signal); %need to add %c also here? mat col ends with no ender
     end
     
-ID_linea=ID_linea+1;
+ID_line=ID_line+1;
 
 end
 
