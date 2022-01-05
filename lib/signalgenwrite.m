@@ -12,8 +12,10 @@ function signalgenwrite(signal,fsamp,gain,repeat)
 %   need to trasnpose 'signal' before you pass it in the main while. You
 %   also need the 'template.ini' file in the same folder.
 
+% signal=signal';
+
 if ~exist('fsamp','var')
-    fsamp=125E6; %[Hz]
+    fsamp='125E6'; %[Hz]
 end
 
 if ~exist('gain','var')
@@ -41,7 +43,7 @@ while (ID_linea<nline)
         fprintf(filewrite,'%s\n',linea);
     end
     if linea(1)=='f'
-        fprintf(filewrite,'%s%u\n','fcamp = ',fsamp);
+        fprintf(filewrite,'%s%s\n','fcamp = ',fsamp);
     end
     if linea(1)=='g'
         fprintf(filewrite,'%s%u\n','gain = ',gain);
