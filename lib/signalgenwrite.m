@@ -1,4 +1,4 @@
-function signalgenwrite(signal,fsamp,gain,repeat)
+function signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat)
 
 %SIGNALGENWRITE used to write data coming from the genearor of functions in
 % a .ini file
@@ -11,6 +11,10 @@ function signalgenwrite(signal,fsamp,gain,repeat)
 %   passed result; if signal is passed from the Schottky_tools you would
 %   need to trasnpose 'signal' before you pass it in the main while. You
 %   also need the 'template.ini' file in the same folder.
+
+% add these followimg two lines in the main code
+% fileread=fopen('template.ini','r');
+% filewrite=fopen('out.ini','w');
 
 % signal=signal';
 
@@ -26,33 +30,31 @@ if ~exist('repeat','var')
     repeat=1;
 end
    
-fileread=fopen('template.ini','r');
-filewrite=fopen('out.ini','w');
 ID_line=1;
 nline=22;
+ender=';';
 
 while (ID_line<nline)
     
     line=fgetl(fileread);
-    ender=';';
     
     if ~ischar(line)
         break;
     end
     
-    if line(1)=='#' || line(1)=='['
+    if startsWith(line,'#') || startsWith(line,'[')
         fprintf(filewrite,'%s\n',line);
     end
-    if line(1)=='f'
+    if startsWith(line,'fcamp')
         fprintf(filewrite,'%s%s%c\n','fcamp = ',fsamp,ender);
     end
-    if line(1)=='g'
+    if startsWith(line,'gain')
         fprintf(filewrite,'%s%u%c\n','gain = ',gain,ender);
     end
-    if line(1)=='r'
+    if startsWith(line,'repeat')
         fprintf(filewrite,'%s%u%c\n','repeat = ',repeat,ender);
     end
-    if line(1)=='v'
+    if startsWith(line,'values')
         fprintf(filewrite,'%s\n',signal); %need to add %c also here? mat col ends with no ender
     end
     

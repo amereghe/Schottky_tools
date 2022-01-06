@@ -1,7 +1,7 @@
-function [time,signal] = signalgenread()
+function [time,signal] = signalgenread(filename)
 
-%OSCREAD used to save data coming from the genearor of functions in a .ini
-%file
+%SIGNALGENREAD used to save data coming from the generator of functions in
+%a .ini file
 
 %   There are two sections in the file: the first is the header where we
 %   find the value of sampling frequency, gain of the acquisition chain and
@@ -10,8 +10,9 @@ function [time,signal] = signalgenread()
 %   Temporal samples instants will be created by the sampling frequency and
 %   the length of the acquired array (signal).
 
-[file,folder]=uigetfile('*.ini');
-filename=fullfile(folder,file);
+% add these following two lines in the main code
+% [file,folder]=uigetfile('*.ini');
+% filename=fullfile(folder,file);
 
 ini=ini2struct(filename);
 fsamp=str2double(split(ini.header.fcamp,';'));
