@@ -17,9 +17,10 @@ function signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat)
 % filewrite=fopen('out.ini','w');
 
 % signal=signal';
+signal1=sprintf("%13.6E; ",signal(1:end-1))+sprintf("%13.6E ",signal(end));
 
 if ~exist('fsamp','var')
-    fsamp='125E6'; %[Hz]
+    fsamp=125E6; %[Hz]
 end
 
 if ~exist('gain','var')
@@ -45,7 +46,7 @@ while (ID_line<nline)
         fprintf(filewrite,'%s\n',line);
     end
     if startsWith(line,'fcamp')
-        fprintf(filewrite,'%s%s\n','fcamp = ',fsamp);
+        fprintf(filewrite,'%s%g\n','fcamp = ',fsamp);
     end
     if startsWith(line,'gain')
         fprintf(filewrite,'%s%u\n','gain = ',gain);
@@ -54,7 +55,7 @@ while (ID_line<nline)
         fprintf(filewrite,'%s%u\n','repeat = ',repeat);
     end
     if startsWith(line,'values')
-        fprintf(filewrite,'%s\n',signal); %need to add %c also here? mat col ends with no ender
+        fprintf(filewrite,'%s%s\n','values = ',signal1); %need to add %c also here? mat col ends with no ender
     end
     
 ID_line=ID_line+1;
