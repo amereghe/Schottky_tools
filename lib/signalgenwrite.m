@@ -32,7 +32,6 @@ end
    
 ID_line=1;
 nline=22;
-ender=';';
 
 while (ID_line<nline)
     
@@ -46,13 +45,13 @@ while (ID_line<nline)
         fprintf(filewrite,'%s\n',line);
     end
     if startsWith(line,'fcamp')
-        fprintf(filewrite,'%s%s%c\n','fcamp = ',fsamp,ender);
+        fprintf(filewrite,'%s%s\n','fcamp = ',fsamp);
     end
     if startsWith(line,'gain')
-        fprintf(filewrite,'%s%u%c\n','gain = ',gain,ender);
+        fprintf(filewrite,'%s%u\n','gain = ',gain);
     end
     if startsWith(line,'repeat')
-        fprintf(filewrite,'%s%u%c\n','repeat = ',repeat,ender);
+        fprintf(filewrite,'%s%u\n','repeat = ',repeat);
     end
     if startsWith(line,'values')
         fprintf(filewrite,'%s\n',signal); %need to add %c also here? mat col ends with no ender
