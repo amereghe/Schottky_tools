@@ -43,19 +43,19 @@ while (ID_line<nline)
     end
     
     if startsWith(line,'#') || startsWith(line,'[')
-        fprintf(filewrite,'%s\n',line);
+        fprintf(filewrite,'%s\r\n',line);
     end
     if startsWith(line,'fcamp')
-        fprintf(filewrite,'%s%g\n','fcamp = ',fsamp);
+        fprintf(filewrite,'%s%g\r\n','fcamp = ',fsamp);
     end
     if startsWith(line,'gain')
-        fprintf(filewrite,'%s%u\n','gain = ',gain);
+        fprintf(filewrite,'%s%u\r\n','gain = ',gain);
     end
     if startsWith(line,'repeat')
-        fprintf(filewrite,'%s%u\n','repeat = ',repeat);
+        fprintf(filewrite,'%s%u\r\n','repeat = ',repeat);
     end
     if startsWith(line,'values')
-        fprintf(filewrite,'%s%s\n','values = ',signal1); %need to add %c also here? mat col ends with no ender
+        fprintf(filewrite,'%s%s\r\n','values = ',signal1); %need to add %c also here? mat col ends with no ender
     end
     
 ID_line=ID_line+1;
