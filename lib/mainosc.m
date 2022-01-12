@@ -21,9 +21,8 @@ signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat);
 
 %% section used to generate some sinusoids in order to evaluate pico's  and pick-up performances
 
-t=(0:dt:intTime-dt)'; % integration time for our sinusoid
-f=2*10^6; % Hz
-signal=sin(2*pi*f*t);
+fpuls=2.0179*10^6; % Hz
+[time,signal]=generatesin(fpuls,intTime,fsamp);
 signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat);
 
 %% section used to generate gaussian pulse in order to evaluate pico's
