@@ -5,17 +5,15 @@ function [time,signal] = oscread(filename)
 %   temporal samples instants while the second column stores the respective
 %   values of the signal at each time (row).
 
-if(~exist('filename','var'))
-        filename='file.txt';
+if(~exist('filename','file'))
+        filename='2,179MHz.txt';
 end
 
 file=fopen(filename,'r');
-A=fscanf(file,'%g %g',[2 inf]); % two columns and undefined rows as we do noot know f_sample a priori
-fclose(file);
+a=textscan(file,'%n	%n','headerlines',3); % % two rows and undefined columns as we do noot know f_sample a priori
+A=cell2mat(a);
 
-A=A';
 time=A(:,1);
 signal=A(:,2);
 
 end
-
