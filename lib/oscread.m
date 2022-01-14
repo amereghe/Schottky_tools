@@ -5,9 +5,9 @@ function [time,signal] = oscread(filename)
 %   temporal samples instants while the second column stores the respective
 %   values of the signal at each time (row).
 
-if(~exist('filename','file'))
-        filename='2,179MHz.txt';
-end
+% if(~exist('filename','file'))
+%         filename='20,077MHz.txt';
+% end
 
 file=fopen(filename,'r');
 a=textscan(file,'%n	%n','headerlines',3); % % two rows and undefined columns as we do noot know f_sample a priori

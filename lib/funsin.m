@@ -1,4 +1,4 @@
-function [T,F,t,f] = funsin(file_fungen,file_pico,intTime,fsamp,time_matlab,freq_matlab,signal_matlab,sMATLAB)
+function [T,F,t,f] = funsin(file_fungen,file_pico,fsamp_pico,fsamp,time_matlab,freq_matlab,signal_matlab,sMATLAB)
 %MAINSIN Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -8,11 +8,11 @@ n_fungen=length(signal_fungen);
 n_pico=length(signal_pico);
 dt_fungen=1/fsamp;
 df_fungen=fsamp/n_fungen;
-df_pico=fsamp/n_pico;
+df_pico=fsamp_pico/n_pico;
 
-time_fungen=(0:dt_fungen:intTime-dt_fungen)';
+time_fungen=(0:dt_fungen:n_fungen*dt_fungen)';
 freq_fungen=(0:df_fungen:fsamp-df_fungen)';
-freq_pico=(0:df_pico:fsamp-df_pico)';
+freq_pico=(0:df_pico:fsamp_pico-df_pico)';
 
 T=padding(signal_matlab,signal_fungen);
 T=padding(T,signal_pico);

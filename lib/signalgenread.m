@@ -24,8 +24,8 @@ if isnan(signal(end))
 end
 
 deltaT=1/fsamp;
-time=(deltaT:deltaT:length(signal)*deltaT)'; %if we want to start from dt
-% time=(0:deltaT:(length(signal)-1)*deltaT)';
+% time=(deltaT:deltaT:length(signal)*deltaT)'; %if we want to start from dt
+time=(0:deltaT:(length(signal)-1)*deltaT)';
 
 end
 
