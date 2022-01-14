@@ -6,7 +6,7 @@ function [signal] = funread(filename)
 %   values of the signal at each time (row).
 
 if(~exist('filename','file'))
-        filename='out2,179MHz.txt';
+        filename='out20,077MHz.txt';
 end
 
 file=fopen(filename,'r');
