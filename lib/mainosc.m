@@ -22,6 +22,9 @@ signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat);
 
 %% section used to generate some sinusoids in order to evaluate pico's  and pick-up performances
 
+filename_fungen='out2,179MHz.txt';
+filename_pico='2,179MHz.txt';
+
 fpuls=2.179*10^6; % Hz
 [time,signal_m]=generatesin(fpuls,intTime,fsamp); % pass to funsin.m
 n=size(time,1); %number of samples []
@@ -29,11 +32,11 @@ df=fsamp/n; %frequency step [Hz]
 freq=(0:df:fsamp-df)'; %frequency vector [Hz]
 FFT=fft(signal_m);
 % signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat); % generates a .ini file containing sin values
-[T_sin,F_sin]=funsin(signal_m,FFT);
+[T_sin,F_sin,t_sin,f_sin]=funsin(intTime,fsamp,time,freq,signal_m,FFT);
 
-PlotTimesFreqfig(time,freq,T_sin,F_sin);
+PlotTimesFreqfig(t_sin,f_sin,T_sin,F_sin);
 title('Siusoid at fpuls = 2.179 MHz','FontSize',20);
-legend('MATLAB','fun_gen','picoscope','FontSize',16);
+legend('MATLAB','fun\_gen','picoscope','FontSize',16);
 
 %% section used to generate gaussian pulse in order to evaluate pico's
 

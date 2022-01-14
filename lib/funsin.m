@@ -1,16 +1,18 @@
-function [T,F] = funsin(signal_matlab,sMATLAB)
+function [T,F,t,f] = funsin(file_fungen,file_pico,intTime,fsamp,time_matlab,freq_matlab,signal_matlab,sMATLAB)
 %MAINSIN Summary of this function goes here
 %   Detailed explanation goes here
 
-filename='out2,179MHz.txt';
-file='2,179MHz.txt';
+signal_fungen=funread(file_fungen);
+[time_pico,signal_pico]=oscread(file_pico);
+n_fungen=length(signal_fungen);
+n_pico=length(signal_pico);
+dt_fungen=1/fsamp;
+df_fungen=fsamp/n_fungen;
+df_pico=fsamp/n_pico;
 
-n=length(signal_matlab);
-signal_fungen=funread(filename);
-[time_pico,signal_pico]=oscread(file);
-
-signal_fungen=signal_fungen(1:n);
-signal_pico=signal_pico(1:n);
+time_fungen=(0:dt_fungen:intTime-dt_fungen)';
+freq_fungen=(0:df_fungen:fsamp-df_fungen)';
+freq_pico=(0:df_pico:fsamp-df_pico)';
 
 T=padding(signal_matlab,signal_fungen);
 T=padding(T,signal_pico);
@@ -19,5 +21,10 @@ sPICO=fft(signal_pico);
 F=padding(sMATLAB,sFUNGEN);
 F=padding(F,sPICO);
 
-end
+t=padding(time_matlab,time_fungen);
+t=padding(t,time_pico);
 
+f=padding(freq_matlab,freq_fungen);
+f=padding(f,freq_pico);
+
+end

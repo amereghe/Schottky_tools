@@ -13,7 +13,7 @@ file=fopen(filename,'r');
 a=textscan(file,'%n	%n','headerlines',3); % % two rows and undefined columns as we do noot know f_sample a priori
 A=cell2mat(a);
 
-time=A(:,1);
+time=10^-6*A(:,1);
 signal=A(:,2);
 
 end
