@@ -41,7 +41,7 @@ FFT=fft(signal_m);
 
 signalgenwrite(filewrite,fileread,signal_m,fsamp,gain,repeat); % generates a .ini file containing sin values
 
-%% saving matrices and plot section
+%% saving matrices and plot section (no schottky)
 
 [T_sin,F_sin,t_sin,f_sin]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freq,signal_m,FFT);
 
@@ -61,6 +61,15 @@ legend('MATLAB','fun\_gen','FontSize',16);
 PlotTimesFreqfig(t(:,[1 3 4]),f(:,[1 3 4]),T(:,[1 3 4]),F(:,[1 3 4]));
 title('Sinusoid at fpuls = 0.511 MHz (fgen = 125 MHz, fsamp\_pico = 125 MHz)','FontSize',20);
 legend('MATLAB','pico\_only','pico\_schottky','FontSize',16);
+
+%% section to plot ratios between signals: pico/matlab and schottky/matlab
+
+[T,F,t,f]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freq,signal_m,FFT,filename_schottky);
+[freq,ratio]=ratiofft(f,F);
+PlotTimesFreqfig(t(:,[1 3]),freq,T(:,[1 3]),ratio); % ratio btw pico and matlab
+% adapt also 'title' and 'legend'
+title('Ratio between ffts)','FontSize',20);
+legend('pico/MATLAB','schottky/MATLAB','FontSize',16);
 
 %% section used to generate gaussian pulse in order to evaluate pico's
 
