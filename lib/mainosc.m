@@ -34,7 +34,7 @@ fpuls=20.077*10^6; % Hz --2bc
 [time,signal_m]=generatesin(fpuls,intTime,fsamp); % pass to funsin.m
 n=size(time,1); %number of samples []
 df=fsamp/n; %frequency step [Hz]
-freq=(0:df:fsamp-df)'; %frequency vector [Hz]
+freqmat=(0:df:fsamp-df)'; %frequency vector [Hz]
 FFT=fft(signal_m);
 
 %% generation tool
@@ -43,7 +43,7 @@ signalgenwrite(filewrite,fileread,signal_m,fsamp,gain,repeat); % generates a .in
 
 %% saving matrices and plot section (no schottky)
 
-[T_sin,F_sin,t_sin,f_sin]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freq,signal_m,FFT);
+[T_sin,F_sin,t_sin,f_sin]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freqmat,signal_m,FFT);
 
 PlotTimesFreqfig(t_sin,f_sin,T_sin,F_sin);
 % adapt also 'title' and 'legend'
@@ -52,7 +52,7 @@ legend('MATLAB','fun\_gen','picoscope','FontSize',16);
 
 %% saving matrices and plot section for matlab+fungen && matlab+pico+schottky
 
-[T,F,t,f]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freq,signal_m,FFT,filename_schottky);
+[T,F,t,f]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freqmat,signal_m,FFT,filename_schottky);
 PlotTimesFreqfig(t(:,[1 2]),f(:,[1 2]),T(:,[1 2]),F(:,[1 2]));
 % adapt also 'title' and 'legend'
 title('Sinusoid at fpuls = 0.511 MHz (fgen = 125 MHz, fsamp\_pico = 125 MHz)','FontSize',20);
@@ -62,11 +62,11 @@ PlotTimesFreqfig(t(:,[1 3 4]),f(:,[1 3 4]),T(:,[1 3 4]),F(:,[1 3 4]));
 title('Sinusoid at fpuls = 0.511 MHz (fgen = 125 MHz, fsamp\_pico = 125 MHz)','FontSize',20);
 legend('MATLAB','pico\_only','pico\_schottky','FontSize',16);
 
-%% section to plot ratios between signals: pico/matlab and schottky/matlab
+%% section to plot RATIOS between signals: pico/matlab and schottky/matlab
 
-[T,F,t,f]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freq,signal_m,FFT,filename_schottky);
-[freq,ratio]=ratiofft(f,F);
-PlotTimesFreqfig(t(:,[1 3]),freq,T(:,[1 3]),ratio); % ratio btw pico and matlab
+[T,F,t,f]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freqmat,signal_m,FFT,filename_schottky);
+[freqNew,ratio]=ratiofft(f,F);
+PlotTimesFreqfig(t(:,[1 3]),freqNew,T(:,[1 3]),ratio(:,[3 4])); % ratio btw pico and matlab
 % adapt also 'title' and 'legend'
 title('Ratio between ffts)','FontSize',20);
 legend('pico/MATLAB','schottky/MATLAB','FontSize',16);
