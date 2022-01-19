@@ -28,7 +28,7 @@ fftRef=spline(f(1:ind(iRef),iRef),abs(F(1:ind(iRef),iRef)),newF);
 R=ones(length(newF),nSignals);
 for iCol=1:nSignals
     if (iCol==iRef), continue; end
-    if (ind(iCol)==length(newF) & f(1,iCol)==newF(1) & f(ind(iCol),iCol)==newF(end))
+    if (ind(iCol)==length(newF) && f(1,iCol)==newF(1) && f(ind(iCol),iCol)==newF(end))
         R(:,iCol)=abs(f(1:ind(iCol),iCol))./fftRef;
     else
         R(:,iCol)=spline(f(1:ind(iCol),iCol),abs(F(1:ind(iCol),iCol)),newF)./fftRef;
