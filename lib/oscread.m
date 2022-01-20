@@ -11,11 +11,13 @@ function [time,signal] = oscread(filename)
 
 file=fopen(filename,'r');
 h=textscan(file,'%s %s','headerlines',1);
-H=h{1,2}{1,1};
 fclose(file);
+H=h{1,2}{1,1};
 file=fopen(filename,'r');
 a=textscan(file,'%n	%n','headerlines',3); % % two rows and undefined columns as we do noot know f_sample a priori
+fclose(file);
 A=cell2mat(a);
+
 
 str='(mV)';
 
