@@ -11,26 +11,24 @@ dt=1/fsamp;
 wl_increment=4;
 t=(dt:dt:intTime)';
 
-for i=1:length(fpuls)
-    y([1:length(t)],i)=rem(t*fpuls(i),1);
+for ii=1:length(fpuls)
+    y([1:length(t)],ii)=rem(t*fpuls(ii),1);
     [mini,ind]=sort(y);
-    for i=1:length(ind)
-        if mod(ind(i)+1,wl_increment)==0
-            min_ind=ind(i);
+    for jj=1:length(ind)
+        if mod(ind(jj)+1,wl_increment)==0
+            min_ind=ind(jj);
             break;
         end
     end
     tt=[0;t(1:min_ind)];
-    sig=zeros(length(tt),length(fpuls));
-    for j=1:length(fpuls)
-        sig(1:length(tt),j)=sin(2*pi*fpuls(j)*tt);
+    sig=sin(2*pi*fpuls(ii)*tt);
+    if ( ii==1 )
+        time=tt;
+        signal=sig;
+    else
+        time=[time;tt(2:end)+time(end)+dt];
+        signal=[signal;sig(2:end)];
     end
-    signal=[sig(:,1);sig(:,2)];
-    for k=3:length(fpuls)
-        signal=[signal;sig(:,k)];
-    end
-    time=(0:dt:(length(signal)-1)*dt)';
 end
-
 
 end
