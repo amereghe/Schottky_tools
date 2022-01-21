@@ -8,13 +8,15 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
     myDiff=diff([abs(thresh)*1.1;abs(SigIn);abs(thresh)*1.1]<thresh);
     iNoiseStart = find(myDiff==1);
     iNoiseStop = find(myDiff==-1)-1;
-    iSigStart=zeros(length(iNoiseStart),1); iSigStop=zeros(length(iNoiseStart),1);
+    nIntervals=length(iNoiseStart);
+    nData=length(SigIn);
+    iSigStart=zeros(nIntervals,1); iSigStop=zeros(nIntervals,1);
     % get indices of actual signal
     nSig=0;
-    for jj=1:numel(iNoiseStart) % loop through each block of noise
+    for jj=1:nIntervals % loop through each block of noise
         myNCons=nCons;
         if (iNoiseStop(jj)-iNoiseStart(jj)<nCons)
-            if ( 1<jj && jj<numel(iNoiseStart) )
+            if ( 1<jj && jj<nIntervals )
                 continue;   % most probably a node
             else
                 % very short noise before/after first/last signal
@@ -41,7 +43,7 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
                 iSigStop(nSig)=iSigStop(nSig)+iStop(1);
             end
         end
-        if (jj<numel(iNoiseStart) || ( jj==numel(iNoiseStart) && iNoiseStop(jj)<length(SigIn) ) )
+        if (jj<nIntervals || ( jj==nIntervals && iNoiseStop(jj)<nData ) )
             nSig=nSig+1; % a new signal
             % get index where following signal actually starts
             iSigStart(nSig)=iNoiseStop(jj);
@@ -50,8 +52,8 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
                 iSigStart(nSig)=iSigStart(nSig)-(length(padded)-iStart(end));
             end
         end
-        if ( jj==numel(iNoiseStart) && iNoiseStop(jj)<length(SigIn) )
-            iSigStop(nSig)=length(SigIn);
+        if ( jj==nIntervals && iNoiseStop(jj)<nData )
+            iSigStop(nSig)=nData;
         end
     end
     iSigStart=iSigStart(1:nSig);
