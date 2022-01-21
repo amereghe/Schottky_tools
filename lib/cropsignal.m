@@ -1,7 +1,7 @@
 function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
     if ( ~exist('thresh','var') ), thresh=0.023; end % []
     if ( ~exist('nCons','var') ), nCons=10; end %
-    if ( ~exist('nSigNoise','var') ), nSigNoise=5; end %
+    if ( ~exist('nSigNoise','var') ), nSigNoise=3; end %
     fprintf("cropping signal...\n");
     % find intervals with noise
     thresh=thresh*max(abs(SigIn));
@@ -37,7 +37,7 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
         end
         if ( jj>1 || ( jj==1 && iNoiseStart(jj)>1 ) )
             % get index where previous signal actually stops
-            iSigStop(nSig)=iNoiseStart(jj)-1;
+            iSigStop(nSig)=iNoiseStart(jj);
             iStop=find(myDiff==-1)-1;
             if ~isempty(iStop)
                 iSigStop(nSig)=iSigStop(nSig)+iStop(1);
