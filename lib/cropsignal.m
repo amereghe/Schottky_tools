@@ -12,7 +12,7 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
     nData=length(SigIn);
     iSigStart=zeros(nIntervals,1); iSigStop=zeros(nIntervals,1);
     % get indices of actual signal
-    nSig=0;
+    nSig=0; iSig=0;
     for jj=1:nIntervals % loop through each block of noise
         myNCons=nCons;
         if (iNoiseStop(jj)-iNoiseStart(jj)<nCons)
@@ -23,11 +23,12 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
                 myNCons=0;
             end
         end
+        iSig=iSig+1;
         mySig=SigIn(iNoiseStart(jj):iNoiseStop(jj));
         mySigStat=mySig(1+round(myNCons/2):end-round(myNCons/2));
         meanNoise=mean(mySigStat);
         stdNoise=std(mySigStat);
-        fprintf("...noise interval #%3d: mean[V]=%6g; stdv[V]=%6g;\n",meanNoise,stdNoise);
+        fprintf("...noise interval #%3d: mean[V]=%6g; stdv[V]=%6g;\n",iSig,meanNoise,stdNoise);
         padded=[0;mySig-meanNoise;0];
         padded=abs(padded)/stdNoise;
         myDiff=diff(padded>nSigNoise);
