@@ -1,28 +1,49 @@
-function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigmNoise)
-%   SigIn has noise before and after useful signal!
-    if ( ~exist('thresh','var') ), thresh=0.023; end % [V]
+function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigNoise)
+    if ( ~exist('thresh','var') ), thresh=0.023; end % []
     if ( ~exist('nCons','var') ), nCons=10; end %
-    if ( ~exist('nSigmNoise','var') ), nSigmNoise=5; end %
+    if ( ~exist('nSigNoise','var') ), nSigNoise=3; end %
+    fprintf("cropping signal...\n");
     % find intervals with noise
     thresh=thresh*max(abs(SigIn));
     myDiff=diff([abs(thresh)*1.1;abs(SigIn);abs(thresh)*1.1]<thresh);
     iNoiseStart = find(myDiff==1);
     iNoiseStop = find(myDiff==-1)-1;
     nIntervals=length(iNoiseStart);
-    if ( nIntervals<2 ), error("...only one noise range!"); end
-    iSigStart=[]; iSigStop=[];
-    % get indices of actual signal, assuming that signal is a pure sinusoid
+    nData=length(SigIn);
+    iSigStart=zeros(nIntervals,1); iSigStop=zeros(nIntervals,1);
+    % get indices of actual signal
     nSig=0;
-    for jj=1:numel(iNoiseStart) % loop through each block of noise
+    for jj=1:nIntervals % loop through each block of noise
+        myNCons=nCons;
         if (iNoiseStop(jj)-iNoiseStart(jj)<nCons)
-            continue;   % most probably a node
+            if ( 1<jj && jj<nIntervals )
+                continue;   % most probably a node
+            else
+                % very short noise before/after first/last signal
+                myNCons=0;
+            end
         end
         mySig=SigIn(iNoiseStart(jj):iNoiseStop(jj));
-        meanNoise=mean(mySig(1+round(nCons/2):end-round(nCons/2)));
-        stdNoise=std(mySig(1+round(nCons/2):end-round(nCons/2)));
-        padded=abs([0;mySig-meanNoise;0])/stdNoise;
-        myDiff=diff(padded>nSigmNoise);
-        if (jj<numel(iNoiseStart))
+        mySigStat=mySig(1+round(myNCons/2):end-round(myNCons/2));
+        meanNoise=mean(mySigStat);
+        stdNoise=std(mySigStat);
+        fprintf("...noise interval #%3d: mean[V]=%6g; stdv[V]=%6g;\n",meanNoise,stdNoise);
+        padded=[0;mySig-meanNoise;0];
+        padded=abs(padded)/stdNoise;
+        myDiff=diff(padded>nSigNoise);
+        if ( jj==1 && iNoiseStart(jj)>1 )
+            nSig=nSig+1; % a signal before first noise interval
+            iSigStart(nSig)=1;
+        end
+        if ( jj>1 || ( jj==1 && iNoiseStart(jj)>1 ) )
+            % get index where previous signal actually stops
+            iSigStop(nSig)=iNoiseStart(jj);
+            iStop=find(myDiff==-1)-1;
+            if ~isempty(iStop)
+                iSigStop(nSig)=iSigStop(nSig)+iStop(1);
+            end
+        end
+        if (jj<nIntervals || ( jj==nIntervals && iNoiseStop(jj)<nData ) )
             nSig=nSig+1; % a new signal
             % get index where following signal actually starts
             iSigStart(nSig)=iNoiseStop(jj);
@@ -31,13 +52,11 @@ function [iSigStart,iSigStop]=cropsignal(SigIn,thresh,nCons,nSigmNoise)
                 iSigStart(nSig)=iSigStart(nSig)-(length(padded)-iStart(end));
             end
         end
-        if (jj>1)
-            % get index where previous signal actually stops
-            iSigStop(nSig)=iNoiseStart(jj)-1;
-            iStop=find(myDiff==-1)-1;
-            if ~isempty(iStop)
-                iSigStop(nSig)=iSigStop(nSig)+iStop(1);
-            end
+        if ( jj==nIntervals && iNoiseStop(jj)<nData )
+            iSigStop(nSig)=nData;
         end
     end
+    iSigStart=iSigStart(1:nSig);
+    iSigStop=iSigStop(1:nSig);
+    fprintf("...identified %d signals!\n",nSig);
 end
