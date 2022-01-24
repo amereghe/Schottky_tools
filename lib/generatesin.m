@@ -26,8 +26,8 @@ for ii=1:length(fpuls)
         time=tt;
         signal=sig;
     else
-        time=[time;tt(2:end)+time(end)+dt];
-        signal=[signal;sig(2:end)];
+        time=[time;tt(1:end)+time(end)+dt];
+        signal=[signal;sig(1:end)];
     end
 end
 
