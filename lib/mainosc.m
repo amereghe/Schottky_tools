@@ -167,10 +167,6 @@ filename_pico_3='20MHz_125_pico_125.txt';
 filename_schottky_1='511kHz_125_pico_125_up_up.txt';
 filename_schottky_2='2MHz_125_pico_125_up_up.txt';
 filename_schottky_3='20MHz_125_pico_125_up_up.txt';
-% you can easily set up filename_schottky for the same frequency in
-% different measure modalities: just use a single frequency so a single
-% *_fungen and a single *_pico_125 file and modify also the legend related
-% to the second plot (plot wideband, low res, high res)
 
 [T_pico_schottky1,F_pico_schottky1,t_pico_schottky1,f_pico_schottky1]=funsin(filename_fungen_1,filename_pico_1,fsamp_pico,fsamp,t1,freq1,signal1,FFT1,filename_schottky_1);
 [T_pico_schottky2,F_pico_schottky2,t_pico_schottky2,f_pico_schottky2]=funsin(filename_fungen_2,filename_pico_2,fsamp_pico,fsamp,t2,freq2,signal2,FFT2,filename_schottky_2);
@@ -186,13 +182,13 @@ pico_F=[F_pico_schottky1(:,3),F_pico_schottky2(:,3)];
 pico_F=padding(pico_F,F_pico_schottky3(:,3));
 
 schottky_t=[t_pico_schottky1(:,4),t_pico_schottky2(:,4)];
-schottky_t=padding(pico_t,t_pico_schottky3(:,4));
+schottky_t=padding(schottky_t,t_pico_schottky3(:,4));
 schottky_T=[T_pico_schottky1(:,4),T_pico_schottky2(:,4)];
-schottky_T=padding(pico_T,T_pico_schottky3(:,4));
+schottky_T=padding(schottky_T,T_pico_schottky3(:,4));
 schottky_f=[f_pico_schottky1(:,4),f_pico_schottky2(:,4)];
-schottky_f=padding(pico_f,f_pico_schottky3(:,4));
+schottky_f=padding(schottky_f,f_pico_schottky3(:,4));
 schottky_F=[F_pico_schottky1(:,4),F_pico_schottky2(:,4)];
-schottky_F=padding(pico_F,F_pico_schottky3(:,4));
+schottky_F=padding(schottky_F,F_pico_schottky3(:,4));
 % pico plot
 PlotTimesFreqfig(pico_t,pico_f,pico_T,pico_F);
 % adapt also 'title' and 'legend'
@@ -224,46 +220,33 @@ df3=fsamp/n3;
 freq3=(0:df3:fsamp-df3)';
 FFT3=fft(signal3);
 
-filename_fungen_1='20MHz_125_fgen.txt';
-filename_fungen_2='20MHz_125_fgen.txt';
-filename_fungen_3='20MHz_125_fgen.txt';
-filename_pico_1='20MHz_125_pico_125.txt';
-filename_pico_2='20MHz_125_pico_125.txt';
-filename_pico_3='20MHz_125_pico_125.txt';
+filename_fungen_1='511kHz_125_fgen.txt';
+filename_fungen_2='511kHz_125_fgen.txt';
+filename_fungen_3='511kHz_125_fgen.txt';
+filename_pico_1='511kHz_125_pico_125.txt';
+filename_pico_2='511kHz_125_pico_125.txt';
+filename_pico_3='511kHz_125_pico_125.txt';
 % select the modality and operation features
-filename_schottky_1='20MHz_125_pico_125_up_up.txt';
-filename_schottky_2='20MHz_125_pico_125_up_up_lres.txt';
-filename_schottky_3='20MHz_125_pico_125_up_up_hres.txt';
-% you can easily set up filename_schottky for the same frequency in
-% different measure modalities: just use a single frequency so a single
-% *_fungen and a single *_pico_125 file and modify also the legend related
-% to the second plot (plot wideband, low res, high res)
+filename_schottky_1='511kHz_125_pico_125_up_up.txt';
+filename_schottky_2='511kHz_125_pico_125_up_up_lres.txt';
+filename_schottky_3='511kHz_125_pico_125_up_up_hres.txt';
 
 [T_pico_schottky1,F_pico_schottky1,t_pico_schottky1,f_pico_schottky1]=funsin(filename_fungen_1,filename_pico_1,fsamp_pico,fsamp,t1,freq1,signal1,FFT1,filename_schottky_1);
 [T_pico_schottky2,F_pico_schottky2,t_pico_schottky2,f_pico_schottky2]=funsin(filename_fungen_2,filename_pico_2,fsamp_pico,fsamp,t2,freq2,signal2,FFT2,filename_schottky_2);
 [T_pico_schottky3,F_pico_schottky3,t_pico_schottky3,f_pico_schottky3]=funsin(filename_fungen_3,filename_pico_3,fsamp_pico,fsamp,t3,freq3,signal3,FFT3,filename_schottky_3);
 
-pico_t=[t_pico_schottky1(:,3),t_pico_schottky2(:,3)];
-pico_t=padding(pico_t,t_pico_schottky3(:,3));
-pico_T=[T_pico_schottky1(:,3),T_pico_schottky2(:,3)];
-pico_T=padding(pico_T,T_pico_schottky3(:,3));
-pico_f=[f_pico_schottky1(:,3),f_pico_schottky2(:,3)];
-pico_f=padding(pico_f,f_pico_schottky3(:,3));
-pico_F=[F_pico_schottky1(:,3),F_pico_schottky2(:,3)];
-pico_F=padding(pico_F,F_pico_schottky3(:,3));
-
 schottky_t=[t_pico_schottky1(:,4),t_pico_schottky2(:,4)];
-schottky_t=padding(pico_t,t_pico_schottky3(:,4));
+schottky_t=padding(schottky_t,t_pico_schottky3(:,4));
 schottky_T=[T_pico_schottky1(:,4),T_pico_schottky2(:,4)];
-schottky_T=padding(pico_T,T_pico_schottky3(:,4));
+schottky_T=padding(schottky_T,T_pico_schottky3(:,4));
 schottky_f=[f_pico_schottky1(:,4),f_pico_schottky2(:,4)];
-schottky_f=padding(pico_f,f_pico_schottky3(:,4));
+schottky_f=padding(schottky_f,f_pico_schottky3(:,4));
 schottky_F=[F_pico_schottky1(:,4),F_pico_schottky2(:,4)];
-schottky_F=padding(pico_F,F_pico_schottky3(:,4));
+schottky_F=padding(schottky_F,F_pico_schottky3(:,4));
 % schottky {w,lres,hres} plot
 PlotTimesFreqfig(schottky_t,schottky_f,schottky_T,schottky_F);
 % adapt also 'title' and 'legend'
-title('Schottky signals at fpuls = 20.077 MHz (fgen = 125 MHz, fsamp\_pico = 125 MHz), up\_up','FontSize',20);
+title('Schottky signals at fpuls = 511 kHz (fgen = 125 MHz, fsamp\_pico = 125 MHz), up\_up','FontSize',20);
 legend('wideband','low resonance','high resonance','FontSize',16);
 
 %% saving matrices and plot section for matlab+fungen && matlab+pico+schottky
