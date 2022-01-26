@@ -204,6 +204,68 @@ PlotTimesFreqfig(schottky_t,schottky_f,schottky_T,schottky_F);
 title('Schottky signals at fpuls = [0.511,2.179,20.077] MHz (fgen = 125 MHz, fsamp\_pico = 125 MHz), up\_up wideband measure','FontSize',20);
 legend('fpuls(1)','fpuls(2)','fpuls(3)','FontSize',16);
 
+%% plot only Schottky (wideband,lres,hres)
+
+fpuls=[0.511,0.511,0.511]*10^6; % Hz --2bc
+% single signals
+[t1,signal1]=generatesin(fpuls(1),intTime,fsamp);
+n1=size(t1,1);
+df1=fsamp/n1;
+freq1=(0:df1:fsamp-df1)';
+FFT1=fft(signal1);
+[t2,signal2]=generatesin(fpuls(2),intTime,fsamp);
+n2=size(t2,1);
+df2=fsamp/n2;
+freq2=(0:df2:fsamp-df2)';
+FFT2=fft(signal2);
+[t3,signal3]=generatesin(fpuls(3),intTime,fsamp);
+n3=size(t3,1);
+df3=fsamp/n3;
+freq3=(0:df3:fsamp-df3)';
+FFT3=fft(signal3);
+
+filename_fungen_1='20MHz_125_fgen.txt';
+filename_fungen_2='20MHz_125_fgen.txt';
+filename_fungen_3='20MHz_125_fgen.txt';
+filename_pico_1='20MHz_125_pico_125.txt';
+filename_pico_2='20MHz_125_pico_125.txt';
+filename_pico_3='20MHz_125_pico_125.txt';
+% select the modality and operation features
+filename_schottky_1='20MHz_125_pico_125_up_up.txt';
+filename_schottky_2='20MHz_125_pico_125_up_up_lres.txt';
+filename_schottky_3='20MHz_125_pico_125_up_up_hres.txt';
+% you can easily set up filename_schottky for the same frequency in
+% different measure modalities: just use a single frequency so a single
+% *_fungen and a single *_pico_125 file and modify also the legend related
+% to the second plot (plot wideband, low res, high res)
+
+[T_pico_schottky1,F_pico_schottky1,t_pico_schottky1,f_pico_schottky1]=funsin(filename_fungen_1,filename_pico_1,fsamp_pico,fsamp,t1,freq1,signal1,FFT1,filename_schottky_1);
+[T_pico_schottky2,F_pico_schottky2,t_pico_schottky2,f_pico_schottky2]=funsin(filename_fungen_2,filename_pico_2,fsamp_pico,fsamp,t2,freq2,signal2,FFT2,filename_schottky_2);
+[T_pico_schottky3,F_pico_schottky3,t_pico_schottky3,f_pico_schottky3]=funsin(filename_fungen_3,filename_pico_3,fsamp_pico,fsamp,t3,freq3,signal3,FFT3,filename_schottky_3);
+
+pico_t=[t_pico_schottky1(:,3),t_pico_schottky2(:,3)];
+pico_t=padding(pico_t,t_pico_schottky3(:,3));
+pico_T=[T_pico_schottky1(:,3),T_pico_schottky2(:,3)];
+pico_T=padding(pico_T,T_pico_schottky3(:,3));
+pico_f=[f_pico_schottky1(:,3),f_pico_schottky2(:,3)];
+pico_f=padding(pico_f,f_pico_schottky3(:,3));
+pico_F=[F_pico_schottky1(:,3),F_pico_schottky2(:,3)];
+pico_F=padding(pico_F,F_pico_schottky3(:,3));
+
+schottky_t=[t_pico_schottky1(:,4),t_pico_schottky2(:,4)];
+schottky_t=padding(pico_t,t_pico_schottky3(:,4));
+schottky_T=[T_pico_schottky1(:,4),T_pico_schottky2(:,4)];
+schottky_T=padding(pico_T,T_pico_schottky3(:,4));
+schottky_f=[f_pico_schottky1(:,4),f_pico_schottky2(:,4)];
+schottky_f=padding(pico_f,f_pico_schottky3(:,4));
+schottky_F=[F_pico_schottky1(:,4),F_pico_schottky2(:,4)];
+schottky_F=padding(pico_F,F_pico_schottky3(:,4));
+% schottky {w,lres,hres} plot
+PlotTimesFreqfig(schottky_t,schottky_f,schottky_T,schottky_F);
+% adapt also 'title' and 'legend'
+title('Schottky signals at fpuls = 20.077 MHz (fgen = 125 MHz, fsamp\_pico = 125 MHz), up\_up','FontSize',20);
+legend('wideband','low resonance','high resonance','FontSize',16);
+
 %% saving matrices and plot section for matlab+fungen && matlab+pico+schottky
 
 [T,F,t,f]=funsin(filename_fungen,filename_pico,fsamp_pico,fsamp,time,freqmat,signal_m,FFT,filename_schottky);
@@ -230,8 +292,12 @@ legend('pico/MATLAB','schottky/MATLAB','FontSize',16);
 
 %% section used to generate gaussian pulse in order to evaluate pico's
 intTime=intTime/3.5; % having declared intTime=200us in first rows of main
-t=(-intTime/2:dt:intTime/2-dt)';
+tt=(-intTime/2:dt:intTime/2-dt)';
 mu=0;
-sigma=10^-5;
-signal=exp(-(t-mu).^2/(2*sigma^2));
+sigma=10^-7;
+signal=exp(-(tt-mu).^2/(2*sigma^2));
 % signalgenwrite(filewrite,fileread,signal,fsamp,gain,repeat);
+sFFT=fft(signal);
+df=fsamp/(length(signal));
+ff=(0:df:fsamp-df)';
+PlotTimesFreqfig(tt,ff,signal,sFFT);
