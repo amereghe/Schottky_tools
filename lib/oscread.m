@@ -11,15 +11,15 @@ fclose(file);
 H=h{1,2}{1,1};
 
 if(~exist('ch','var'))
-        file=fileopen(filename,'r');
+        file=fopen(filename,'r');
         a=textscan(file,'%n %n','headerlines',3); % % two rows and undefined columns as we do noot know f_sample a priori
         fclose(file);
         A=cell2mat(a);
 else
-    file=fopen(filename,'r');
-    a=textscan(file,'%n	%n %n','headerlines',3); % % three rows and undefined columns as we do noot know f_sample a priori
-    fclose(file);
-    A=cell2mat(a);
+        file=fopen(filename,'r');
+        a=textscan(file,'%n	%n %n','headerlines',3); % % three rows and undefined columns as we do noot know f_sample a priori
+        fclose(file);
+        A=cell2mat(a);
 end
 
 
