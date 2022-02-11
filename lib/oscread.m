@@ -8,6 +8,7 @@ function [time,signal] = oscread(filename,ch)
 file=fopen(filename,'r');
 h=textscan(file,'%s%s','headerlines',1);
 fclose(file);
+T=h{1,1}{1,1};
 H=h{1,2}{1,1};
 
 if(~exist('ch','var'))
@@ -24,8 +25,14 @@ end
 
 
 str='(mV)';
+ini='(ms)';
 
-time=10^-6*A(:,1);
+if strcmp(T,ini)
+    time=10^-3*A(:,1);
+else
+    time=10^-6*A(:,1);
+end
+
 if strcmp(H,str)
     signal=10^-3*A(:,2);
     if(exist('ch','var'))
