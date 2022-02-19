@@ -1,4 +1,4 @@
-function [time,signal] = oscread(filename,ch)
+function [time,signal] = oscread(filename)
 
 %OSCREAD used to save data coming from the picoscope in a txt file
 %   There are two columns in the file: the first column is related to the
@@ -11,16 +11,17 @@ fclose(file);
 T=h{1,1}{1,1};
 H=h{1,2}{1,1};
 
-if(~exist('ch','var'))
-        file=fopen(filename,'r');
-        a=textscan(file,'%n %n','headerlines',3); % % two rows and undefined columns as we do noot know f_sample a priori
-        fclose(file);
-        A=cell2mat(a);
-else
-        file=fopen(filename,'r');
-        a=textscan(file,'%n	%n %n','headerlines',3); % % three rows and undefined columns as we do noot know f_sample a priori
-        fclose(file);
-        A=cell2mat(a);
+
+file=fopen(filename,'r');
+a=textscan(file,'%n	%n %n %n %n','headerlines',3);
+fclose(file);
+A=cell2mat(a);
+
+
+for j=size(A,2):-1:3
+    if isnan(A(1,j))
+        A(:,j)=[];
+    end
 end
 
 
@@ -33,18 +34,13 @@ else
     time=10^-6*A(:,1);
 end
 
+siz=size(A,2);
+B=A(:,2:siz);
+
 if strcmp(H,str)
-    signal=10^-3*A(:,2);
-    if(exist('ch','var'))
-        tmp=10^-3*A(:,3);
-        signal=[signal,tmp];
-    end
+    signal=10^-3*B;
 else
-    signal=A(:,2);
-    if(exist('ch','var'))
-        tmp=A(:,3);
-        signal=[signal,tmp];
-    end
+    signal=B;
 end
 
 end
