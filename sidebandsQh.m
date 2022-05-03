@@ -1,3 +1,5 @@
+% {}~
+
 %% program description
 % The program generates and plots signals for three values of horizontal
 % tune.
@@ -17,7 +19,7 @@ intTime = 200*10^-6; %integration time of signal [s]
 friv=2.167*10^6; %revolution frequency [Hz]
 Triv=1/friv; %revolution period [s]
 dt=1/fsamp; %temporal step [s]
-t=time(intTime,dt); %time vector [s]
+t=(0:dt:intTime-dt)'; %time vector [s]
 w=8*10^-9; %100ns: width of impulse/rect < (1/(2*friv)) [s]
 n=size(t,1); %number of samples []
 df=fsamp/n; %frequency step [Hz]
@@ -35,11 +37,11 @@ a=1; %amplitude of the modulation sinusoid
 %% generate signal and compute FFT
 
 % transverse unbunched: q~=0
-tu=generate(0,t,q(1),friv,w,taus,a0,a);
+tu=SimulatePartPassages(t,friv,0,0,q(1),a0,a,"DELTA",1,0);
 TU=fft(tu);
-tu1=generate(0,t,q(2),friv,w,taus,a0,a);
+tu1=SimulatePartPassages(t,friv,0,0,q(2),a0,a,"DELTA",1,0);
 TU1=fft(tu1);
-tu2=generate(0,t,q(3),friv,w,taus,a0,a);
+tu2=SimulatePartPassages(t,friv,0,0,q(3),a0,a,"DELTA",1,0);
 TU2=fft(tu2);
 
 %% plot signals

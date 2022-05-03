@@ -1,4 +1,4 @@
-function [time,signal] = generatesin(fpuls,intTime,fsamp)
+function [tOut,sOut] = generatesin(fpuls,intTime,fsamp)
 
 %GENERATESIN used to generate a  train of sin with full period
 
@@ -23,11 +23,11 @@ for ii=1:length(fpuls)
     tt=[0;t(1:min_ind)];
     sig=sin(2*pi*fpuls(ii)*tt);
     if ( ii==1 )
-        time=tt;
-        signal=sig;
+        tOut=tt;
+        sOut=sig;
     else
-        time=[time;tt(1:end)+time(end)+dt];
-        signal=[signal;sig(1:end)];
+        tOut=[tOut;tt(1:end)+tOut(end)+dt];
+        sOut=[sOut;sig(1:end)];
     end
 end
 

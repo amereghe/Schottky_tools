@@ -1,3 +1,5 @@
+% {}~
+
 %% program description
 % The program generates and plots signals for three integration times.
 % The generated signals are longitudinal/transverse (sigma/delta)
@@ -18,7 +20,7 @@ fs=1.173*10^3; %synchrotron frequency ~1kHz [Hz]
 friv=2.167*10^6; %revolution frequency [Hz]
 Triv=1/friv; %revolution period [s]
 dt=1/fsamp; %temporal step [s]
-t1=time(intTime(1),dt); t2=time(intTime(2),dt); t3=time(intTime(3),dt); %time vectors [s]
+t1=(0:dt:intTime(1)-dt)'; t2=(0:dt:intTime(2)-dt)'; t3=(0:dt:intTime(3)-dt)'; %time vectors [s]
 w=8*10^-9; %100ns: width of impulse/rect < (1/(2*friv)) [s]
 
 f1=(0:fsamp/(size(t1,1)):fsamp*(1-1/(size(t1,1))))'; %frequency vector [Hz]
@@ -37,35 +39,35 @@ a=1; %amplitude of the modulation sinusoid
 %% generate signal and compute FFT
 
 % longitudinal (sigma) unbunched (on-momentum): fs=0
-lu=generate(0,t1,0,friv,w,taus,a0,a);
+lu=SimulatePartPassages(t1,friv,0,0,0,a0,a,"DELTA",1,w);
 LU=fft(lu);
-lu1=generate(0,t2,0,friv,w,taus,a0,a);
+lu1=SimulatePartPassages(t2,friv,0,0,0,a0,a,"DELTA",1,w);
 LU1=fft(lu1);
-lu2=generate(0,t3,0,friv,w,taus,a0,a);
+lu2=SimulatePartPassages(t3,friv,0,0,0,a0,a,"DELTA",1,w);
 LU2=fft(lu2);
 
 % longitudinal (sigma) bunched (off-momentum, RF on): fs~=0
-lb=generate(fs,t1,0,friv,w,taus,a0,a);
+lb=SimulatePartPassages(t1,friv,fs,taus,0,a0,a,"DELTA",1,0);
 LB=fft(lb);
-lb1=generate(fs,t2,0,friv,w,taus,a0,a);
+lb1=SimulatePartPassages(t2,friv,fs,taus,0,a0,a,"DELTA",1,0);
 LB1=fft(lb1);
-lb2=generate(fs,t3,0,friv,w,taus,a0,a);
+lb2=SimulatePartPassages(t3,friv,fs,taus,0,a0,a,"DELTA",1,0);
 LB2=fft(lb2);
 
 % transverse (delta) unbunched (on-momentum): q~=0
-tu=generate(0,t1,q,friv,w,taus,a0,a);
+tu=SimulatePartPassages(t1,friv,0,0,q,a0,a,"DELTA",1,0);
 TU=fft(tu);
-tu1=generate(0,t2,q,friv,w,taus,a0,a);
+tu1=SimulatePartPassages(t2,friv,0,0,q,a0,a,"DELTA",1,0);
 TU1=fft(tu1);
-tu2=generate(0,t3,q,friv,w,taus,a0,a);
+tu2=SimulatePartPassages(t3,friv,0,0,q,a0,a,"DELTA",1,0);
 TU2=fft(tu2);
 
 % transverse (delta) bunched (off-momentum, RF on): q~=0 && fs~=0
-tb=generate(fs,t1,q,friv,w,taus,a0,a);
+tb=SimulatePartPassages(t1,friv,fs,taus,q,a0,a,"DELTA",1,0);
 TB=fft(tb);
-tb1=generate(fs,t2,q,friv,w,taus,a0,a);
+tb1=SimulatePartPassages(t2,friv,fs,taus,q,a0,a,"DELTA",1,0);
 TB1=fft(tb1);
-tb2=generate(fs,t3,q,friv,w,taus,a0,a);
+tb2=SimulatePartPassages(t3,friv,fs,taus,q,a0,a,"DELTA",1,0);
 TB2=fft(tb2);
 
 %% plot signals

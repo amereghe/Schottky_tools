@@ -1,3 +1,5 @@
+% {}~
+
 %% program description
 % The program generates and plots signals for three values of synchrotron
 % frequency.
@@ -17,7 +19,7 @@ fs=[1.173/2,1.173,2*1.173]*10^3; %synchrotron frequency ~1kHz [Hz]
 friv=2.167*10^6; %revolution frequency [Hz]
 Triv=1/friv; %revolution period [s]
 dt=1/fsamp; %temporal step [s]
-t=time(intTime,dt); %time vector [s]
+t=(0:dt:intTime-dt)'; %time vector [s]
 w=8*10^-9; %100ns: width of impulse/rect < (1/(2*friv)) [s]
 n=size(t,1); %number of samples []
 df=fsamp/n; %frequency step [Hz]
@@ -35,11 +37,11 @@ a=1; %amplitude of the modulation sinusoid
 %% generate signal and compute FFT
 
 % longitudinal (sigma) bunched (off-momentum, RF on): fs~=0
-lb=generate(fs(1),t,0,friv,w,taus,a0,a);
+lb=SimulatePartPassages(t,friv,fs(1),taus,0,a0,a,"DELTA",1,0);
 LB=fft(lb);
-lb1=generate(fs(2),t,0,friv,w,taus,a0,a);
+lb1=SimulatePartPassages(t,friv,fs(2),taus,0,a0,a,"DELTA",1,0);
 LB1=fft(lb1);
-lb2=generate(fs(3),t,0,friv,w,taus,a0,a);
+lb2=SimulatePartPassages(t,friv,fs(3),taus,0,a0,a,"DELTA",1,0);
 LB2=fft(lb2);
 
 %% plot signals

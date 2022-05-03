@@ -1,3 +1,5 @@
+% {}~
+
 %% program description
 % The program generates and plots signals for a specific integration time.
 % The generated signals are longitudinal/transverse (sigma/delta)
@@ -17,7 +19,7 @@ fs=1.173*10^3; %synchrotron frequency ~1kHz [Hz]
 friv=2.167*10^6; %revolution frequency [Hz]
 Triv=1/friv; %revolution period [s]
 dt=1/fsamp; %temporal step [s]
-t=time(intTime,dt); %time vector [s]
+t=(0:dt:intTime-dt)'; %time vector [s]
 w=8*10^-9; %100ns: width of impulse/rect < (1/(2*friv)) [s]
 n=size(t,1); %number of samples []
 df=fsamp/n; %frequency step [Hz]
@@ -35,21 +37,21 @@ a=1; %amplitude of the modulation sinusoid
 %% generate signal and compute FFT
 
 % longitudinal (sigma) unbunched (on-momentum): fs=0
-lu=generate(0,t,0,friv,w,taus,a0,a);
+lu=SimulatePartPassages(t,friv,0,0,0,a0,a,"DELTA",1,0);
 LU=fft(lu);
 
 % longitudinal (sigma) bunched (off-momentum, RF on): fs~=0
-lb=generate(fs,t,0,friv,w,taus,a0,a);
+lb=SimulatePartPassages(t,friv,fs,taus,0,a0,a,"DELTA",1,0);
 LB=fft(lb);
-% lb2=generate(fs,t,0,friv,w,taus,1,a); %mean_value ~= 0
+% lb2=SimulatePartPassages(t,friv,fs,taus,0,1,a,"DELTA",1,0);
 % LB2=fft(lb2);
 
 % transverse (delta) unbunched (on-momentum): q~=0
-tu=generate(0,t,q,friv,w,taus,a0,a);
+tu=SimulatePartPassages(t,friv,0,0,q,a0,a,"DELTA",1,0);
 TU=fft(tu);
 
 % transverse (delta) bunched (off-momentum, RF on): q~=0 && fs~=0
-tb=generate(fs,t,q,friv,w,taus,a0,a);
+tb=SimulatePartPassages(t,friv,fs,taus,q,a0,a,"DELTA",1,0);
 TB=fft(tb);
 % tb2=generate(fs,t,q,friv,w,taus,1,a); %avg mod sin ~= 0
 % TB2=fft(tb2);
