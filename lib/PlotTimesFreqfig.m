@@ -52,6 +52,7 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
     ax = gca; ax.FontSize = TicksFontSize;
     xlabel('Time [s]','FontSize',LabelFontSize);
     ylabel('Amplitude [A.U.]','FontSize',LabelFontSize);
+    grid();
     
     % frequency domain
     subplot(2,1,2);
@@ -74,6 +75,7 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
     end
     ylabel('Absolute value [A.U.]','FontSize',LabelFontSize);
     set(gca,'YScale','log');
+    grid();
     
 end
 
