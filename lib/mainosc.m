@@ -32,7 +32,7 @@ filename_schottky='511kHz_125_pico_125_up_up_hres.txt'; % --2bc
 
 fpuls=[0.511,2.179,20.077]*10^6; % Hz --2bc
 % fpuls=[0.468997,1.343040,1.756816,1.945041,2.209601,2.290283,2.753049,5.290283,7.543041,10.140529,12.577011,15.175314,17.577090,20.077017]*10^6;
-[time,signal_m]=GenerateSinusoids(fpuls,intTime,fsamp); % pass to funsin.m
+[time,signal_m]=FGENGenerateSinusoids(fpuls,intTime,fsamp); % pass to funsin.m
 n=size(time,1); %number of samples []
 df=fsamp/n; %frequency step [Hz]
 freqmat=(0:df:fsamp-df)'; %frequency vector [Hz]
@@ -84,23 +84,23 @@ legend('MATLAB\_norm','Pico\_only\_norm','Schottky\_cropped\_norm','FontSize',16
 %% evaluate differences btw single fft and all fft
 % signals without zeros between them
 fpuls=[0.511,2.179,20.077]*10^6; % Hz --2bc
-[time,signal_m]=GenerateSinusoids(fpuls,intTime,fsamp); % pass to funsin.m
+[time,signal_m]=FGENGenerateSinusoids(fpuls,intTime,fsamp); % pass to funsin.m
 n=size(time,1); %number of samples []
 df=fsamp/n; %frequency step [Hz]
 freqmat=(0:df:fsamp-df)'; %frequency vector [Hz]
 FFT=fft(signal_m); % -- we can use also fftshift()? different spectra, maybe correct
 % single signals
-[t1,signal1]=GenerateSinusoids(fpuls(1),intTime,fsamp);
+[t1,signal1]=FGENGenerateSinusoids(fpuls(1),intTime,fsamp);
 n1=size(t1,1);
 df1=fsamp/n1;
 freq1=(0:df1:fsamp-df1)';
 FFT1=fft(signal1);
-[t2,signal2]=GenerateSinusoids(fpuls(2),intTime,fsamp);
+[t2,signal2]=FGENGenerateSinusoids(fpuls(2),intTime,fsamp);
 n2=size(t2,1);
 df2=fsamp/n2;
 freq2=(0:df2:fsamp-df2)';
 FFT2=fft(signal2);
-[t3,signal3]=GenerateSinusoids(fpuls(3),intTime,fsamp);
+[t3,signal3]=FGENGenerateSinusoids(fpuls(3),intTime,fsamp);
 n3=size(t3,1);
 df3=fsamp/n3;
 freq3=(0:df3:fsamp-df3)';
@@ -141,17 +141,17 @@ legend('MATLAB','fun\_gen','Schottky','Schottky cropped','FontSize',16);
 
 fpuls=[0.511,2.179,20.077]*10^6; % Hz --2bc
 % single signals
-[t1,signal1]=GenerateSinusoids(fpuls(1),intTime,fsamp);
+[t1,signal1]=FGENGenerateSinusoids(fpuls(1),intTime,fsamp);
 n1=size(t1,1);
 df1=fsamp/n1;
 freq1=(0:df1:fsamp-df1)';
 FFT1=fft(signal1);
-[t2,signal2]=GenerateSinusoids(fpuls(2),intTime,fsamp);
+[t2,signal2]=FGENGenerateSinusoids(fpuls(2),intTime,fsamp);
 n2=size(t2,1);
 df2=fsamp/n2;
 freq2=(0:df2:fsamp-df2)';
 FFT2=fft(signal2);
-[t3,signal3]=GenerateSinusoids(fpuls(3),intTime,fsamp);
+[t3,signal3]=FGENGenerateSinusoids(fpuls(3),intTime,fsamp);
 n3=size(t3,1);
 df3=fsamp/n3;
 freq3=(0:df3:fsamp-df3)';
@@ -204,17 +204,17 @@ legend('fpuls(1)','fpuls(2)','fpuls(3)','FontSize',16);
 
 fpuls=[0.511,0.511,0.511]*10^6; % Hz --2bc
 % single signals
-[t1,signal1]=GenerateSinusoids(fpuls(1),intTime,fsamp);
+[t1,signal1]=FGENGenerateSinusoids(fpuls(1),intTime,fsamp);
 n1=size(t1,1);
 df1=fsamp/n1;
 freq1=(0:df1:fsamp-df1)';
 FFT1=fft(signal1);
-[t2,signal2]=GenerateSinusoids(fpuls(2),intTime,fsamp);
+[t2,signal2]=FGENGenerateSinusoids(fpuls(2),intTime,fsamp);
 n2=size(t2,1);
 df2=fsamp/n2;
 freq2=(0:df2:fsamp-df2)';
 FFT2=fft(signal2);
-[t3,signal3]=GenerateSinusoids(fpuls(3),intTime,fsamp);
+[t3,signal3]=FGENGenerateSinusoids(fpuls(3),intTime,fsamp);
 n3=size(t3,1);
 df3=fsamp/n3;
 freq3=(0:df3:fsamp-df3)';

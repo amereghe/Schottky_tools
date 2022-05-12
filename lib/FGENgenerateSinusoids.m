@@ -1,5 +1,5 @@
-function [tOut,sOut,nSamps] = GenerateSinusoids(fPuls,intTime,fSamp,lConcatenate)
-% GenerateSinusoids     generates some sinusoids with full periods, such
+function [tOut,sOut,nSamps] = FGENgenerateSinusoids(fPuls,intTime,fSamp,lConcatenate)
+% FGENgenerateSinusoids     generates some sinusoids with full periods, such
 %                             that each sinusoid can be repeated indefinitively
 
     %% parameters
