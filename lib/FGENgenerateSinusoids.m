@@ -26,7 +26,7 @@ function [tOut,sOut,nSamps] = FGENgenerateSinusoids(fPuls,intTime,fSamp,lConcate
         % NB: if the first signal is being crunched, we have to consider 0!
         iStart=1;
         if ( lConcatenate && ii>1 ), iStart=2; end
-        nSamps(ii)=FGENTruncate(basicTime(iStart:end),fPuls(ii));
+        nSamps(ii)=FGENtruncate(basicTime(iStart:end),fPuls(ii));
         if ( nSamps(ii)==0 )
             error("...unable to find a proper truncation point for Fpulse=%g and Fsamp=%g!",...
                 fPuls(ii),1/dt);

@@ -1,4 +1,4 @@
-function iMax=FGENTruncate(basicTime,currFPuls)
+function iMax=FGENtruncate(basicTime,currFPuls)
     % find best truncation point:
     %    funGen expects the array to be long a multiple of 4
     fGenMul=4;
