@@ -1,5 +1,5 @@
-function yy=GenerateSingleGauss(tt,yy,t0,AA,sigT,nSig)
-    if (~exist('friv','var')), nSig=5; end
+function yy=GenerateGaussians(tt,yy,t0,AA,sigT,nSig)
+    if (~exist('nSig','var')), nSig=5; end
     for ii=1:length(sigT)
         for jj=1:length(t0)
             myIndices=(t0(jj)-nSig*sigT(ii)<=tt & tt<=t0(jj)+nSig*sigT(ii));

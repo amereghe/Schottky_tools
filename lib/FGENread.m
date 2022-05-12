@@ -1,4 +1,5 @@
-function [time,signal] = signalgenread(filename)
+function [time,signal] = FGENread(filename)
+% FGENread                       read a signal in a .ini file
 
 %SIGNALGENREAD used to save data coming from the generator of functions in
 %a .ini file

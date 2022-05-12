@@ -85,11 +85,11 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
     
     % - actual signals times
     if ( strcmpi(extractBetween(sigType,1,5),"DELTA") )
-        yy=GenerateSingleDelta(tt,yy,tau,as);
+        yy=GenerateDeltas(tt,yy,tau,as);
     elseif ( strcmpi(extractBetween(sigType,1,4),"RECT") )
-        yy=GenerateSingleRect(tt,yy,tau,as,ws);
+        yy=GenerateRectangles(tt,yy,tau,as,ws);
     elseif ( strcmpi(extractBetween(sigType,1,5),"GAUSS") )
-        yy=GenerateSingleGauss(tt,yy,tau,as,ws);
+        yy=GenerateGaussians(tt,yy,tau,as,ws);
     end
 
     % - betatron motion (i.e. amplitude modulation, like transverse position)
