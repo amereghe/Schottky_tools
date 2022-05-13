@@ -1,46 +1,61 @@
-function [time,signal] = oscread(filename)
+function [time,signals] = PICOread(fileName)
+% PICOread             read data acquired with a picoscope and saved in plain ASCII file
 
-%OSCREAD used to save data coming from the picoscope in a txt file
-%   There are two columns in the file: the first column is related to the
-%   temporal samples instants while the second column stores the respective
-%   values of the signal at each time (row).
+% A picoscope file contains:
+% - a column with time, and up to 4 columns for the channels;
+% - a line for every time entry;
+% - three lines of header, eg:
+%   "Tempo	Canale A"
+%   "(us)	(V)"
+%   ""
 
-file=fopen(filename,'r');
-h=textscan(file,'%s%s','headerlines',1);
-fclose(file);
-T=h{1,1}{1,1};
-H=h{1,2}{1,1};
+    fprintf("acquiring PICOscope plain ASCII file %s ...\n",fileName);
 
+    %% parsing header
+    fileID=fopen(fileName,'r');
+    tmpLine=fgetl(fileID); % first line is skipped
+    tmpLine=fgetl(fileID);
+    fclose(fileID);
+    units=split(string(tmpLine));
+    T=units(1);
+    V=units(2:end);
+    
+    %% getting actual content
+    A=readmatrix(fileName,"NumHeaderLines",3);
+    time=A(:,1);
+    signals=A(:,2:end);
+    nSignals=size(signals,2);
+    nValues=size(signals,1);
 
-file=fopen(filename,'r');
-a=textscan(file,'%n	%n %n %n %n','headerlines',3);
-fclose(file);
-A=cell2mat(a);
-
-
-for j=size(A,2):-1:3
-    if isnan(A(1,j))
-        A(:,j)=[];
+    %% take into account units
+    switch T
+        case "(s)"
+            fprintf("...time given in s: keep it as it is;\n");
+        case "(ms)"
+            time=1.0E-3*time;
+            fprintf("...time given in ms: converting it to seconds;\n");
+        case "(us)"
+            time=1.0E-6*time;
+            fprintf("...time given in us: converting it to seconds;\n");
+        otherwise
+            error("...unknown time unit in file: %s!",T);
     end
-end
-
-
-str='(mV)';
-ini='(ms)';
-
-if strcmp(T,ini)
-    time=10^-3*A(:,1);
-else
-    time=10^-6*A(:,1);
-end
-
-siz=size(A,2);
-B=A(:,2:siz);
-
-if strcmp(H,str)
-    signal=10^-3*B;
-else
-    signal=B;
-end
+    for ii=1:nSignals
+        switch V(ii)
+            case "(V)"
+                fprintf("...signal #%d given in V: keep it as it is;\n",ii);
+            case "(mV)"
+                signals(:,ii)=1.0E-3*signals(:,ii);
+                fprintf("...signal #%d given in mV: converting it to V;\n",ii);
+            case "(uV)"
+                signals(:,ii)=1.0E-6*signals(:,ii);
+                fprintf("...signal #%d given in uV: converting it to V;\n",ii);
+            otherwise
+                error("...unknown unit of signal #%d in file: %s!",V,ii);
+        end
+    end
+    
+    %% bye bye
+    fprintf("...acquired %d signal(s) and %d values.\n",nSignals,nValues);
 
 end
