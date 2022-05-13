@@ -41,14 +41,12 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
     if rest == resT
         for ii=1:rest
             if(ii>1), hold on; end
-            indices=(~isnan(T(:,ii)));
-            plot(t(indices,ii),T(indices,ii));
+            plot(t(:,ii),T(:,ii),".-");
         end
     elseif rest == 1
         for ii=1:resT
             if(ii>1), hold on; end
-            indices=(~isnan(T(:,ii)));
-            plot(t(indices),T(indices,ii));
+            plot(t,T(:,ii),".-");
         end
     end
     ax = gca; ax.FontSize = TicksFontSize;
@@ -61,14 +59,12 @@ function [] = PlotTimesFreqfig(t,f,T,F,friv)
     if resf == resF
         for ii=1:resf
             if(ii>1), hold on; end
-            indices=(~isnan(F(:,ii)));
-            plot(f(indices,ii)/fNormFact,abs(F(indices,ii)));
+            plot(f(:,ii)/fNormFact,abs(F(:,ii)),".-");
         end
     elseif resf == 1
         for ii=1:resF
             if(ii>1), hold on; end
-            indices=(~isnan(F(:,ii)));
-            plot(f(indices)/fNormFact,abs(F(indices,ii)));
+            plot(f/fNormFact,abs(F(:,ii)),".-");
         end
     end
     ax = gca; ax.FontSize = TicksFontSize;
