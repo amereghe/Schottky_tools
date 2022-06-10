@@ -1,4 +1,5 @@
-function [time,signal] = signalgenread(filename)
+function [time,signal] = FGENread(filename)
+% FGENread                       read a signal in a .ini file
 
 %SIGNALGENREAD used to save data coming from the generator of functions in
 %a .ini file
@@ -14,6 +15,7 @@ function [time,signal] = signalgenread(filename)
 % [file,folder]=uigetfile('*.ini');
 % filename=fullfile(folder,file);
 
+fprintf("reading file %s ...\n",filename);
 ini=ini2struct(filename);
 fsamp=str2double(split(ini.header.fcamp,';'));
 signal=str2double(split(ini.signal.values,';'));
@@ -27,5 +29,6 @@ deltaT=1/fsamp;
 % time=(deltaT:deltaT:length(signal)*deltaT)'; %if we want to start from dt
 time=(0:deltaT:(length(signal)-1)*deltaT)';
 
+fprintf("...acquired %d points;\n",length(time));
 end
 

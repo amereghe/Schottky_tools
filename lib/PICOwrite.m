@@ -1,6 +1,6 @@
-function [] = oscwrite(time,signal,filename)
+function [] = PICOwrite(time,signal,filename)
 
-%OSCWRITE used to semd data to the picoscope in a txt file
+%PICOwrite used to semd data to the picoscope in a txt file
 %   There are two columns in the file: the first column is related to the
 %   temporal samples instants while the second column stores the respective
 %   values of the signal at each time (row).

@@ -9,10 +9,10 @@ fOsc4='array_125_pico_125_2ch_up_down_0dB_16dB.txt';
 
 ch=1;
 
-[tt1,ss1]=oscread(fOsc1,ch); % add second input for 2chs mode
-[tt2,ss2]=oscread(fOsc2,ch);
-[tt3,ss3]=oscread(fOsc3,ch);
-[tt4,ss4]=oscread(fOsc4,ch);
+[tt1,ss1]=PICOread(fOsc1,ch); % add second input for 2chs mode
+[tt2,ss2]=PICOread(fOsc2,ch);
+[tt3,ss3]=PICOread(fOsc3,ch);
+[tt4,ss4]=PICOread(fOsc4,ch);
 
 fsamp=125*10^6;
 [start1,stop1]=cropsignal(ss1(:,1),0.15,20); % signal, thresh, nCons

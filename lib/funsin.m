@@ -3,9 +3,9 @@ function [T,F,t,f] = funsin(file_fungen,file_pico,fsamp_pico,fsamp,time_matlab,f
 %   Detailed explanation goes here
 
 signal_fungen=funread(file_fungen);
-[time_pico,signal_pico]=oscread(file_pico);
+[time_pico,signal_pico]=PICOread(file_pico);
 if exist('file_schottky','var')
-    [time_schottky,signal_schottky]=oscread(file_schottky);
+    [time_schottky,signal_schottky]=PICOread(file_schottky);
 end
 n_fungen=length(signal_fungen);
 n_pico=length(signal_pico);
