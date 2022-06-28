@@ -29,7 +29,7 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
 %   GAUSS: sigma of Gaussian profile;
 %
 % output:
-% - yy (1D array, double precision): time signal [s]. It is of the same
+% - yy (1D array, double precision): time signal [V]. It is of the same
 %   size as tt;
 
     %% parameters
@@ -83,16 +83,17 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
     % - synchrotron motion (changes time of passage of particle turn by turn)
     if(fs~=0), tau=tau+taus*sin(2*pi*fs*tau); end
     
-    % - actual signals times
+    % - betatron motion (i.e. amplitude modulation, like transverse position)
+    if(qq~=0), betaAmpli=(a0+aa*sin(2*pi*qq*friv*tau)); else betaAmpli=missing(); end
+
+    % - actual time signals
     if ( strcmpi(extractBetween(sigType,1,5),"DELTA") )
-        yy=GenerateDeltas(tt,yy,tau,as);
+        yy=GenerateDeltas(tt,yy,tau,as,betaAmpli);
     elseif ( strcmpi(extractBetween(sigType,1,4),"RECT") )
-        yy=GenerateRectangles(tt,yy,tau,as,ws);
+        yy=GenerateRectangles(tt,yy,tau,as,ws,betaAmpli);
     elseif ( strcmpi(extractBetween(sigType,1,5),"GAUSS") )
-        yy=GenerateGaussians(tt,yy,tau,as,ws);
+        yy=GenerateGaussians(tt,yy,tau,as,ws,betaAmpli);
     end
 
-    % - betatron motion (i.e. amplitude modulation, like transverse position)
-    if(qq~=0), yy=yy.*(a0+aa*sin(2*pi*qq*friv*tt)); end
 
 end
