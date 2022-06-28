@@ -42,7 +42,7 @@ function [tOut,sOut,nSamps] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigT
             nCentres=floor(tt(end)*fPuls(ii));
             tau=(((1:nCentres)-0.5)/fPuls(ii)+tt(1))'; % central time of particle passage [s]
             sig=zeros(length(tt),1);
-            sig=GenerateGaussians(tt,sig,tau,as(ii),ws(ii),0.5/fPuls(ii));
+            sig=GenerateGaussians(tt,sig,tau,as(ii),ws(ii),missing(),0.5/fPuls(ii));
         end
         
         % store data
