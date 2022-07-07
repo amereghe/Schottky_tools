@@ -1,5 +1,8 @@
 % {}~
 
+%% description
+% script to generate a signal and save it in a .ini file for LabView FGEN
+
 %% include libraries
 pathToLibrary="lib";
 addpath(genpath(pathToLibrary));
@@ -8,72 +11,65 @@ addpath(genpath(pathToLibrary));
 
 %% sampling parameters
 % fPuls=[ 511.34E3 20.0145E6]; % [Hz]
-fPuls=511.34E3; % [Hz]
+% fPuls=511.34E3; % [Hz]
+fPuls=5.1134E6; % [Hz]
 intTime=200E-6; % [s]
 fSamp=125E6; % [Hz]
 lConcatenate=true;
+sigType="gausspart";
 % for Gaussian signals only
-ws=50E-9; % sigma_time [s]
-as=sqrt(2*pi)*ws;
+ws=0.1/fPuls;     % sigma_time [s]
+as=sqrt(2*pi)*ws; % amplitude
 
-%% generate sinusoidal signals
-[tOut,sOut,nSamps] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate);
-if ( lConcatenate ), nPoints=sum(nSamps); else nPoints=nSamps; end
+%% clear stuff
+clear tOut sOut; tOut=missing(); sOut=missing();
+clear myLabels; myLabels=missing();
+clear ff FF; ff=missing(); FF=missing();
 
-%% generate Gaussian train
-[tOut,sOut,nSamps] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,"GAUSS",as,ws);
-if ( lConcatenate ), nPoints=sum(nSamps); else nPoints=nSamps; end
-
-%% get FFTs
-ff=zeros(size(sOut)); FF=zeros(size(sOut));
-for ii=1:size(sOut,2)
-    df=fSamp/(nPoints(ii)-1);              %frequency step [Hz]
-    ff(1:nPoints(ii),ii)=(0:df:fSamp)';    %frequency vector [Hz]
-    FF(1:nPoints(ii),ii)=fft(sOut(1:nPoints(ii),ii));
+%% generate signals
+switch upper(sigType)
+    case "SIN"
+        [ttOut,stOut] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate);
+    case "GAUSS"
+        [ttOut,stOut] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigType,as,ws);
+    case "GAUSSPART"
+        [ttOut,myFreq,myDt,myDf]=StandardAxes(fSamp,intTime,false);
+        stOut=SimulatePartPassages(ttOut,fPuls,0,0,0,0,0,"GAUSS",as,ws);
+    otherwise
+        error("unknown signal type: %s!",sigType);
 end
-
-%% FFT shift
-for ii=1:size(sOut,2)
-    ff(1:nPoints(ii),ii)=ff(1:nPoints(ii),ii)-fSamp/2;
-    FF(1:nPoints(ii),ii)=fftshift(FF(1:nPoints(ii),ii),1);
-end
-
-% %% compare Gaussian train
-% [myTime,myFreq,myDt,myDf]=StandardAxes(fSamp,intTime,false);
-% myNSamps=size(myTime,1);
-% tOut(1:myNSamps,size(sOut,2)+1)=myTime;
-% sOut(1:myNSamps,size(sOut,2)+1)=SimulatePartPassages(myTime,fPuls,0,0,0,0,0,"GAUSS",as,ws);
-% ff(1:myNSamps,size(ff,2)+1)=(0:myDf:fSamp)'-fSamp/2;
-% FF(1:myNSamps,size(FF,2)+1)=fftshift(fft(sOut(1:myNSamps,size(sOut,2)) ),1);
-
-%% plot signals and FFTs
-PlotTimesFreqfig(tOut,ff,sOut,FF);
+tOut=PaddMe(ttOut,tOut); sOut=PaddMe(stOut,sOut);
+myLabels=PaddMe(GenNameSingSignal(sigType,fPuls),myLabels);
 
 %% write to file
-fixedName="sinusoid";
 for ii=1:size(sOut,2)
-    oFileName=GenOFileNameSingSignal(fixedName,fPuls(ii));
-    % oFileName="";
-    FGENwrite(oFileName,"template.ini",sOut(1:nPoints(ii),ii));
+    oFileName=sprintf("%s.ini",myLabels(ii));
+    FGENwrite(oFileName,"template.ini",sOut(~ismissing(sOut(:,ii)),ii));
 end
 
-%% read back file and check
-[time,signal] = FGENread("sinusoid_kHz511.340.ini");% [time,signal] = FGENread("out.ini");
-dt=time(2)-time(1); fSamp=1/dt; df=fSamp/(length(signal)-1);
-ffs=(0:df:fSamp)'-fSamp/2; FFs=fftshift(fft(signal),1);
-nSig=size(sOut,2);
-tOut(1:length(time),nSig+1)=time;
-sOut(1:length(time),nSig+1)=signal;
-ff(1:length(time),nSig+1)=ffs;
-FF(1:length(time),nSig+1)=FFs;
-PlotTimesFreqfig(tOut,ff,sOut,FF);
+%% read back file
+files=dir("gauss*.ini");
+for iFile=1:length(files)
+    oFileName=strcat(files(iFile).folder,"\",files(iFile).name);
+    [ttOut,stOut] = FGENread(oFileName);
+    tOut=PaddMe(ttOut,tOut); sOut=PaddMe(stOut,sOut);
+    myLabels=PaddMe(string(files(iFile).name),myLabels);
+end
 
-function oFileName=GenOFileNameSingSignal(fixedName,fPulse)
+%% get FFTs
+[tff,tFF]=FFTme(tOut,sOut);
+ff=PaddMe(tff,ff); FF=PaddMe(tFF,FF);
+
+%% plot 
+ShowTime(tOut,sOut); legend(LabelMe(myLabels),"Location","best"); % time signals
+ShowFFT(ff,dBme(FF)); legend(LabelMe(myLabels),"Location","best"); % FFTs
+
+function oFileName=GenNameSingSignal(fixedName,fPulse)
     if ( fPulse>1E6 )
-        oFileName=sprintf("%s_MHz%07.3f.ini",fixedName,fPulse*1E-06);
+        oFileName=sprintf("%s_MHz%07.3f",fixedName,fPulse*1E-06);
     elseif ( fPulse>1E3 )
-        oFileName=sprintf("%s_kHz%07.3f.ini",fixedName,fPulse*1E-03);
+        oFileName=sprintf("%s_kHz%07.3f",fixedName,fPulse*1E-03);
     else
-        oFileName=sprintf("%s_Hz%g.ini",fixedName,fPulse);
+        oFileName=sprintf("%s_Hz%g",fixedName,fPulse);
     end
 end
