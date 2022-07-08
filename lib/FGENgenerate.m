@@ -25,17 +25,14 @@ function [tOut,sOut,nSamps] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigT
     %% generate signals
     for ii=1:nPulseFreqs
         % find best truncation point
-        % NB: if the first signal is being crunched, we have to consider 0!
-        iStart=1;
-        if ( lConcatenate && ii>1 ), iStart=2; end
-        nSamps(ii)=FGENtruncate(basicTime(iStart:end),fPuls(ii));
+        nSamps(ii)=FGENtruncate(basicTime,fPuls(ii));
         if ( nSamps(ii)==0 )
             error("...unable to find a proper truncation point for Fpulse=%g and Fsamp=%g!",...
                 fPuls(ii),1/dt);
         end
         
         % sample signal
-        tt=basicTime(iStart:nSamps(ii)+iStart-1);
+        tt=basicTime(1:nSamps(ii)-1);
         if ( strcmpi(extractBetween(sigType,1,3),"SIN") )
             sig=as(ii)*sin(2*pi*fPuls(ii)*tt);
         elseif ( strcmpi(extractBetween(sigType,1,5),"GAUSS") )
@@ -47,9 +44,9 @@ function [tOut,sOut,nSamps] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigT
         
         % store data
         if ( lConcatenate )
-            tOut(iStore+1:iStore+nSamps(ii))=tt+tLast;
-            sOut(iStore+1:iStore+nSamps(ii))=sig;
-            iStore=iStore+nSamps(ii);
+            tOut(iStore+1:iStore+nSamps(ii)-1)=tt+tLast+dt;
+            sOut(iStore+1:iStore+nSamps(ii)-1)=sig;
+            iStore=iStore+nSamps(ii)-1;
             tLast=tOut(iStore);
         else
             tOut(1:nSamps(ii),ii)=tt;
