@@ -11,16 +11,17 @@ addpath(genpath(pathToLibrary));
 
 %% sampling parameters
 % fPuls=[ 511.34E3 5.1134E6 15.437E6 ]; % [Hz]
-% fPuls=511.34E3; % [Hz]
-fPuls=500E3; % [Hz]
+fPuls=511.34E3; % [Hz]
+% fPuls=500E3; % [Hz]
 % fPuls=5.1134E6; % [Hz]
-intTime=200E-6; % [s]
+intTime=2E-3; % [s]
 fSamp=125E6; % [Hz]
 lConcatenate=true;
-sigType="cos";
+sigType="gausspart";
 % for Gaussian signals only
 ws=0.1./fPuls;     % sigma_time [s]
-as=sqrt(2*pi)*ws; % amplitude
+as=sqrt(2*pi)*ws;  % amplitude
+trunc=0.2;         % truncation level [0:1]
 
 %% clear stuff
 clear tOut sOut; tOut=missing(); sOut=missing();
@@ -35,7 +36,8 @@ switch upper(sigType)
         [ttOut,stOut] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigType,as,ws);
     case "GAUSSPART"
         [ttOut,myFreq,myDt,myDf]=StandardAxes(fSamp,intTime,false);
-        stOut=SimulatePartPassages(ttOut,fPuls,0,0,0,0,0,"GAUSS",as,ws);
+        nSamps=FGENtruncate(ttOut,fPuls); ttOut=ttOut(1:nSamps-1);
+        stOut=SimulatePartPassages(ttOut,fPuls,0,0,0,0,0,"GAUSS",as,ws,trunc);
     otherwise
         error("unknown signal type: %s!",sigType);
 end
@@ -61,12 +63,16 @@ for iFile=1:length(files)
     myLabels=PaddMe(string(files(iFile).name),myLabels);
 end
 
+%% apply windowing
+tOut=PaddMe(tOut,tOut); sOut=PaddMe(WindowMe(sOut,"BH"),sOut);
+myLabels=PaddMe(strcat(myLabels,"_BH"),myLabels);
+
 %% get FFTs
 [tff,tFF]=FFTme(tOut,sOut);
 ff=PaddMe(tff,ff); FF=PaddMe(tFF,FF);
 
 %% plot 
-ShowTime(tOut,sOut); legend(LabelMe(myLabels),"Location","best"); % time signals
+ShowTime(tOut,sOut); legend(LabelMe(myLabels),"Location","best"); % set(gca, 'YScale', 'log'); % time signals
 ShowFFT(ff,dBme(FF)); legend(LabelMe(myLabels),"Location","best"); % FFTs
 
 function oFileName=GenNameSingSignal(fixedName,fPulse)
