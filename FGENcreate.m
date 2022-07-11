@@ -10,15 +10,16 @@ pathToLibrary="externals";
 addpath(genpath(pathToLibrary));
 
 %% sampling parameters
-% fPuls=[ 511.34E3 20.0145E6]; % [Hz]
+% fPuls=[ 511.34E3 5.1134E6 15.437E6 ]; % [Hz]
 % fPuls=511.34E3; % [Hz]
-fPuls=5.1134E6; % [Hz]
+fPuls=500E3; % [Hz]
+% fPuls=5.1134E6; % [Hz]
 intTime=200E-6; % [s]
 fSamp=125E6; % [Hz]
 lConcatenate=true;
-sigType="gausspart";
+sigType="cos";
 % for Gaussian signals only
-ws=0.1/fPuls;     % sigma_time [s]
+ws=0.1./fPuls;     % sigma_time [s]
 as=sqrt(2*pi)*ws; % amplitude
 
 %% clear stuff
@@ -28,8 +29,8 @@ clear ff FF; ff=missing(); FF=missing();
 
 %% generate signals
 switch upper(sigType)
-    case "SIN"
-        [ttOut,stOut] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate);
+    case {"SIN","COS"}
+        [ttOut,stOut] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigType);
     case "GAUSS"
         [ttOut,stOut] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigType,as,ws);
     case "GAUSSPART"
@@ -39,7 +40,11 @@ switch upper(sigType)
         error("unknown signal type: %s!",sigType);
 end
 tOut=PaddMe(ttOut,tOut); sOut=PaddMe(stOut,sOut);
-myLabels=PaddMe(GenNameSingSignal(sigType,fPuls),myLabels);
+if ( length(fPuls)==1 )
+    myLabels=PaddMe(GenNameSingSignal(sigType,fPuls),myLabels);
+else
+    myLabels="combined";
+end
 
 %% write to file
 for ii=1:size(sOut,2)
