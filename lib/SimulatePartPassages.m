@@ -1,4 +1,4 @@
-function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
+function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws,trunc)
 % SimulatePartPassages             actually generates the time signal of 
 %                                     particles passing at the Schottky,
 %                                     turn by turn
@@ -27,6 +27,7 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
 % - ws (scalar, double precision): width of signal [s] (only RECT and GAUSS);
 %   RECT: full duration of RECT;
 %   GAUSS: sigma of Gaussian profile;
+% - trunc (scalar, double precision): truncation of signal [0:1] (only GAUSS);
 %
 % output:
 % - yy (1D array, double precision): time signal [V]. It is of the same
@@ -55,6 +56,9 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
         end
         if ( ~strcmpi(extractBetween(sigType,1,4),"RECT") & ~strcmpi(extractBetween(sigType,1,5),"GAUSS") )
             error("...un-recognised signal type: %s (only DELTA, RECT, GAUSS)",sigType);
+        end
+        if ( strcmpi(extractBetween(sigType,1,5),"GAUSS") & ~exist("trunc","var") )
+            trunc=0.0;
         end
     end
     
@@ -92,7 +96,7 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws)
     elseif ( strcmpi(extractBetween(sigType,1,4),"RECT") )
         yy=GenerateRectangles(tt,yy,tau,as,ws,betaAmpli);
     elseif ( strcmpi(extractBetween(sigType,1,5),"GAUSS") )
-        yy=GenerateGaussians(tt,yy,tau,as,ws,betaAmpli);
+        yy=GenerateGaussians(tt,yy,tau,as,ws,betaAmpli,trunc);
     end
 
 
