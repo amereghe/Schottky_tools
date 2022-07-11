@@ -35,6 +35,8 @@ function [tOut,sOut,nSamps] = FGENgenerate(fPuls,intTime,fSamp,lConcatenate,sigT
         tt=basicTime(1:nSamps(ii)-1);
         if ( strcmpi(extractBetween(sigType,1,3),"SIN") )
             sig=as(ii)*sin(2*pi*fPuls(ii)*tt);
+        elseif ( strcmpi(extractBetween(sigType,1,3),"COS") )
+            sig=as(ii)*cos(2*pi*fPuls(ii)*tt);
         elseif ( strcmpi(extractBetween(sigType,1,5),"GAUSS") )
             nCentres=floor(tt(end)*fPuls(ii));
             tau=(((1:nCentres)-0.5)/fPuls(ii)+tt(1))'; % central time of particle passage [s]
