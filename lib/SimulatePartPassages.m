@@ -27,7 +27,7 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws,trunc)
 % - ws (scalar, double precision): width of signal [s] (only RECT and GAUSS);
 %   RECT: full duration of RECT;
 %   GAUSS: sigma of Gaussian profile;
-% - trunc (scalar, double precision): truncation of signal [0:1] (only GAUSS);
+% - trunc (1D array, 2 elements, double precision): truncation of signal [0:1] (only GAUSS);
 %
 % output:
 % - yy (1D array, double precision): time signal [V]. It is of the same
@@ -58,7 +58,7 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws,trunc)
             error("...un-recognised signal type: %s (only DELTA, RECT, GAUSS)",sigType);
         end
         if ( strcmpi(extractBetween(sigType,1,5),"GAUSS") & ~exist("trunc","var") )
-            trunc=0.0;
+            trunc=[0.0 1.0];
         end
     end
     

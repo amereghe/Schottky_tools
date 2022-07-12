@@ -21,7 +21,7 @@ sigType="gausspart";
 % for Gaussian signals only
 ws=0.1./fPuls;     % sigma_time [s]
 as=sqrt(2*pi)*ws;  % amplitude
-trunc=0.2;         % truncation level [0:1]
+trunc=[0.2 0.8];         % truncation level [0:1]
 
 %% clear stuff
 clear tOut sOut; tOut=missing(); sOut=missing();
