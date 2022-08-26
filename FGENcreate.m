@@ -18,7 +18,7 @@ fPuls=1/tTT; % [Hz]
 % fPuls=500E3; % [Hz]
 % fPuls=5.1134E6; % [Hz]
 intTime=tTT; % [s]
-fSamp=10E3; % [Hz]
+fSamp=5E6; % [Hz]
 lConcatenate=true;
 sigType="rectpart";
 % for Rectangle only
