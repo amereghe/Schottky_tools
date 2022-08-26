@@ -1,8 +1,9 @@
-function yOut=dBme(yIn)
+function yOut=dBme(yIn,myImpedance)
+    if ( ~exist("myImpedance","var" ) ), myImpedance=50.0; end % default impedance: 50 Ohm
     yOut=NaN(size(yIn));
     for iSig=1:size(yIn,2)
-        tmpSig=yIn(~isnan(yIn(:,iSig)),iSig);
-        nPoints=length(tmpSig);
-        yOut(1:nPoints,iSig)=20*log10((abs(tmpSig)/nPoints).^2./50*1E3);
+        tmpFFT=yIn(~isnan(yIn(:,iSig)),iSig);
+        nPoints=length(tmpFFT);
+        yOut(1:nPoints,iSig)=10*log10(2*(tmpFFT/nPoints).*conj(tmpFFT/nPoints)/(2*myImpedance)*1E3);
     end
 end

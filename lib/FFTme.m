@@ -10,8 +10,8 @@ function [ff,FF]=FFTme(time,signals)
         nPoints=length(tmpTime);
         % actual calculation
         fSamp=1/(tmpTime(2)-tmpTime(1));            % sampling frequency [Hz]
-        df=fSamp/(nPoints-1);                       % frequency step [Hz]
-        ff(1:nPoints,iSig)=(0:df:fSamp)'-fSamp/2;   % frequency domain [Hz]
+        df=fSamp/nPoints;                           % frequency step [Hz]
+        ff(1:nPoints,iSig)=(0:df:fSamp-df)'-fSamp/2;% frequency domain [Hz]
         FF(1:nPoints,iSig)=fftshift(fft(tmpSig),1); % FFT
     end
 end

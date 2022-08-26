@@ -16,7 +16,7 @@ function SigOut=WindowMe(SigIn,WindowName)
         switch upper(WindowName)
             case {"BH","BLACKMANHARRIS"}
                 SigOut(1:nPoints,iSig)=SigIn(1:nPoints,iSig).*blackmanharris(nPoints);
-                RR=sum(tmpSig,"omitNan")/sum(SigOut(1:nPoints,iSig),"omitNan");
+                RR=sqrt(sum(tmpSig.^2,"omitNan")/sum(SigOut(1:nPoints,iSig).^2,"omitNan"));
                 SigOut(1:nPoints,iSig)=SigOut(1:nPoints,iSig)*RR;
         end
     end
