@@ -66,14 +66,14 @@ function yy = SimulatePartPassages(tt,friv,fs,taus,qq,a0,aa,sigType,as,ws,trunc)
     if (ismissing(fs)), fs=0; end
     if (ismissing(taus)), taus=0; end
     if ( (fs==0 && taus~=0) | (fs~=0 && taus==0) )
-        warning("...inconsisten set of values of fs and taus: setting to 0.0 both!");
+        warning("...inconsistent set of values of fs and taus: setting to 0.0 both!");
         fs=0; taus=0;
     end
     % transverse beam dynamics
     if (ismissing(qq)), qq=0; end
     if (ismissing(aa)), aa=0; end
     if ( (qq==0 && aa~=0) | (qq~=0 && aa==0) )
-        warning("...inconsisten set of values of qq and aa: setting to 0.0 both!");
+        warning("...inconsistent set of values of qq and aa: setting to 0.0 both!");
         qq=0; aa=0;
     end
 
